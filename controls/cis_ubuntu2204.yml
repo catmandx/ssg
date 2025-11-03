@@ -1241,7 +1241,7 @@ controls:
           - l1_server
           - l1_workstation
       rules:
-          - var_network_filtering_service=nftables
+          # - var_network_filtering_service=nftables
           - package_ufw_installed
       status: automated
 
@@ -1298,99 +1298,99 @@ controls:
           - set_ufw_default_rule
       status: automated
 
-    - id: 4.2.1
-      title: Ensure nftables is installed (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - package_nftables_installed
-      status: automated
+    # - id: 4.2.1
+    #   title: Ensure nftables is installed (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - package_nftables_installed
+    #   status: automated
 
-    - id: 4.2.2
-      title: Ensure ufw is uninstalled or disabled with nftables (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - package_ufw_removed
-      status: automated
+    # - id: 4.2.2
+    #   title: Ensure ufw is uninstalled or disabled with nftables (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - package_ufw_removed
+    #   status: automated
 
-    - id: 4.2.3
-      title: Ensure iptables are flushed with nftables (Manual)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: manual
+    # - id: 4.2.3
+    #   title: Ensure iptables are flushed with nftables (Manual)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: manual
 
-    - id: 4.2.4
-      title: Ensure a nftables table exists (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - var_nftables_family=inet
-          - var_nftables_table=filter
-          - set_nftables_table
-      status: automated
+    # - id: 4.2.4
+    #   title: Ensure a nftables table exists (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - var_nftables_family=inet
+    #       - var_nftables_table=filter
+    #       - set_nftables_table
+    #   status: automated
 
-    - id: 4.2.5
-      title: Ensure nftables base chains exist (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - var_nftables_base_chain_names=chain_names
-          - var_nftables_base_chain_types=chain_types
-          - var_nftables_base_chain_hooks=chain_hooks
-          - var_nftables_base_chain_priorities=chain_priorities
-          - var_nftables_base_chain_policies=chain_policies
-          - set_nftables_base_chain
-      status: automated
+    # - id: 4.2.5
+    #   title: Ensure nftables base chains exist (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - var_nftables_base_chain_names=chain_names
+    #       - var_nftables_base_chain_types=chain_types
+    #       - var_nftables_base_chain_hooks=chain_hooks
+    #       - var_nftables_base_chain_priorities=chain_priorities
+    #       - var_nftables_base_chain_policies=chain_policies
+    #       - set_nftables_base_chain
+    #   status: automated
 
-    - id: 4.2.6
-      title: Ensure nftables loopback traffic is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - set_nftables_loopback_traffic
-      status: automated
+    # - id: 4.2.6
+    #   title: Ensure nftables loopback traffic is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - set_nftables_loopback_traffic
+    #   status: automated
 
-    - id: 4.2.7
-      title: Ensure nftables outbound and established connections are configured (Manual)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: manual
+    # - id: 4.2.7
+    #   title: Ensure nftables outbound and established connections are configured (Manual)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: manual
 
-    - id: 4.2.8
-      title: Ensure nftables default deny firewall policy (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - nftables_ensure_default_deny_policy
-      status: automated
+    # - id: 4.2.8
+    #   title: Ensure nftables default deny firewall policy (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - nftables_ensure_default_deny_policy
+    #   status: automated
 
-    - id: 4.2.9
-      title: Ensure nftables service is enabled (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - service_nftables_enabled
-      status: automated
+    # - id: 4.2.9
+    #   title: Ensure nftables service is enabled (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - service_nftables_enabled
+    #   status: automated
 
-    - id: 4.2.10
-      title: Ensure nftables rules are permanent (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - var_nftables_master_config_file=etc
-          - nftables_rules_permanent
-      status: automated
+    # - id: 4.2.10
+    #   title: Ensure nftables rules are permanent (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - var_nftables_master_config_file=etc
+    #       - nftables_rules_permanent
+    #   status: automated
 
     - id: 4.3.1.1
       title: Ensure iptables packages are installed (Automated)
@@ -2870,15 +2870,15 @@ controls:
           - file_permissions_unauthorized_world_writable
       status: automated
 
-    - id: 7.1.12
-      title: Ensure no files or directories without an owner and a group exist (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - no_files_unowned_by_user
-          - file_permissions_ungroupowned
-      status: automated
+    # - id: 7.1.12
+    #   title: Ensure no files or directories without an owner and a group exist (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - no_files_unowned_by_user
+    #       - file_permissions_ungroupowned
+    #   status: automated
 
     - id: 7.1.13
       title: Ensure SUID and SGID files are reviewed (Manual)

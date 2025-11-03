@@ -2349,90 +2349,90 @@ controls:
           - permissions_local_var_log
       status: automated
 
-    - id: 6.3.1.1
-      title: Ensure auditd packages are installed (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - package_audit_installed
-          - package_audit-audispd-plugins_installed
-      status: automated
+    # - id: 6.3.1.1
+    #   title: Ensure auditd packages are installed (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - package_audit_installed
+    #       - package_audit-audispd-plugins_installed
+    #   status: automated
 
-    - id: 6.3.1.2
-      title: Ensure auditd service is enabled and active (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - service_auditd_enabled
-      status: automated
+    # - id: 6.3.1.2
+    #   title: Ensure auditd service is enabled and active (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - service_auditd_enabled
+    #   status: automated
 
-    - id: 6.3.1.3
-      title: Ensure auditing for processes that start prior to auditd is enabled (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - grub2_audit_argument
-          - zipl_audit_argument
-      status: automated
+    # - id: 6.3.1.3
+    #   title: Ensure auditing for processes that start prior to auditd is enabled (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - grub2_audit_argument
+    #       - zipl_audit_argument
+    #   status: automated
 
-    - id: 6.3.1.4
-      title: Ensure audit_backlog_limit is sufficient (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - grub2_audit_backlog_limit_argument
-          - zipl_audit_backlog_limit_argument
-      status: automated
+    # - id: 6.3.1.4
+    #   title: Ensure audit_backlog_limit is sufficient (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - grub2_audit_backlog_limit_argument
+    #       - zipl_audit_backlog_limit_argument
+    #   status: automated
 
-    - id: 6.3.2.1
-      title: Ensure audit log storage size is configured (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - var_auditd_max_log_file=6
-          - auditd_data_retention_max_log_file
-      status: automated
+    # - id: 6.3.2.1
+    #   title: Ensure audit log storage size is configured (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - var_auditd_max_log_file=6
+    #       - auditd_data_retention_max_log_file
+    #   status: automated
 
-    - id: 6.3.2.2
-      title: Ensure audit logs are not automatically deleted (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - var_auditd_max_log_file_action=keep_logs
-          - auditd_data_retention_max_log_file_action
-      status: automated
+    # - id: 6.3.2.2
+    #   title: Ensure audit logs are not automatically deleted (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - var_auditd_max_log_file_action=keep_logs
+    #       - auditd_data_retention_max_log_file_action
+    #   status: automated
 
-    - id: 6.3.2.3
-      title: Ensure system is disabled when audit logs are full (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - var_auditd_disk_error_action=cis_ubuntu2204
-          - var_auditd_disk_full_action=cis_ubuntu2204
-          - auditd_data_disk_error_action
-          - auditd_data_disk_full_action
-      status: automated
+    # - id: 6.3.2.3
+    #   title: Ensure system is disabled when audit logs are full (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - var_auditd_disk_error_action=cis_ubuntu2204
+    #       - var_auditd_disk_full_action=cis_ubuntu2204
+    #       - auditd_data_disk_error_action
+    #       - auditd_data_disk_full_action
+    #   status: automated
 
-    - id: 6.3.2.4
-      title: Ensure system warns when audit logs are low on space (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - var_auditd_action_mail_acct=root
-          - var_auditd_space_left_action=email
-          - var_auditd_admin_space_left_action=halt
-          - auditd_data_retention_action_mail_acct
-          - auditd_data_retention_admin_space_left_action
-          - auditd_data_retention_space_left_action
-      status: automated
+    # - id: 6.3.2.4
+    #   title: Ensure system warns when audit logs are low on space (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - var_auditd_action_mail_acct=root
+    #       - var_auditd_space_left_action=email
+    #       - var_auditd_admin_space_left_action=halt
+    #       - auditd_data_retention_action_mail_acct
+    #       - auditd_data_retention_admin_space_left_action
+    #       - auditd_data_retention_space_left_action
+    #   status: automated
 
     - id: 6.3.3.1
       title: Ensure changes to system administration scope (sudoers) is collected (Automated)

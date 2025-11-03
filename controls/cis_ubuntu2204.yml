@@ -1517,14 +1517,14 @@ controls:
           - file_permissions_sshd_pub_key
       status: automated
 
-    - id: 5.1.4
-      title: Ensure sshd access is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - sshd_limit_user_access
-      status: automated
+    # - id: 5.1.4
+    #   title: Ensure sshd access is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - sshd_limit_user_access
+    #   status: automated
 
     - id: 5.1.5
       title: Ensure sshd Banner is configured (Automated)

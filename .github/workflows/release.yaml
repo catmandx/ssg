@@ -18,8 +18,8 @@ jobs:
       - name: Configure
         run: cmake ..
         working-directory: ./build
-      - name: Build Ubuntu 22.04 only
-        run: make -j2 ubuntu2204
+      - name: Build Ubuntu 24.04 only
+        run: make -j2 ubuntu2404
         working-directory: ./build
       - name: Set Version
         id: set_version
@@ -43,6 +43,6 @@ jobs:
           tag_name: ${{ steps.set_version.outputs.tag }}
           body: ${{ steps.build_changelog.outputs.changelog }}
           files: |
-            build/ssg-ubuntu2204-ds.xml
+            build/ssg-ubuntu2404-ds.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

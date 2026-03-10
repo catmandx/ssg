@@ -110,14 +110,14 @@ controls:
           - l1_workstation
       status: manual
 
-    - id: 1.1.2.1.1
-      title: Ensure /tmp is a separate partition (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - partition_for_tmp
-      status: automated
+    # - id: 1.1.2.1.1
+    #   title: Ensure /tmp is a separate partition (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - partition_for_tmp
+    #   status: automated
 
     - id: 1.1.2.1.2
       title: Ensure nodev option set on /tmp partition (Automated)
@@ -182,14 +182,14 @@ controls:
           - mount_option_dev_shm_noexec
       status: automated
 
-    - id: 1.1.2.3.1
-      title: Ensure separate partition exists for /home (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - partition_for_home
-      status: automated
+    # - id: 1.1.2.3.1
+    #   title: Ensure separate partition exists for /home (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - partition_for_home
+    #   status: automated
 
     - id: 1.1.2.3.2
       title: Ensure nodev option set on /home partition (Automated)
@@ -209,14 +209,14 @@ controls:
           - mount_option_home_nosuid
       status: automated
 
-    - id: 1.1.2.4.1
-      title: Ensure separate partition exists for /var (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - partition_for_var
-      status: automated
+    # - id: 1.1.2.4.1
+    #   title: Ensure separate partition exists for /var (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - partition_for_var
+    #   status: automated
 
     - id: 1.1.2.4.2
       title: Ensure nodev option set on /var partition (Automated)
@@ -236,14 +236,14 @@ controls:
           - mount_option_var_nosuid
       status: automated
 
-    - id: 1.1.2.5.1
-      title: Ensure separate partition exists for /var/tmp (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - partition_for_var_tmp
-      status: automated
+    # - id: 1.1.2.5.1
+    #   title: Ensure separate partition exists for /var/tmp (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - partition_for_var_tmp
+    #   status: automated
 
     - id: 1.1.2.5.2
       title: Ensure nodev option set on /var/tmp partition (Automated)
@@ -272,14 +272,14 @@ controls:
           - mount_option_var_tmp_noexec
       status: automated
 
-    - id: 1.1.2.6.1
-      title: Ensure separate partition exists for /var/log (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - partition_for_var_log
-      status: automated
+    # - id: 1.1.2.6.1
+    #   title: Ensure separate partition exists for /var/log (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - partition_for_var_log
+    #   status: automated
 
     - id: 1.1.2.6.2
       title: Ensure nodev option set on /var/log partition (Automated)
@@ -308,14 +308,14 @@ controls:
           - mount_option_var_log_noexec
       status: automated
 
-    - id: 1.1.2.7.1
-      title: Ensure separate partition exists for /var/log/audit (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - partition_for_var_log_audit
-      status: automated
+    # - id: 1.1.2.7.1
+    #   title: Ensure separate partition exists for /var/log/audit (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - partition_for_var_log_audit
+    #   status: automated
 
     - id: 1.1.2.7.2
       title: Ensure nodev option set on /var/log/audit partition (Automated)
@@ -417,15 +417,15 @@ controls:
           mode for all profiles in /etc/apparmor.d which can
           break certain applications. See https://workbench.cisecurity.org/benchmarks/18959/tickets/23987
 
-    - id: 1.4.1
-      title: Ensure bootloader password is set (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - grub2_password
-          - grub2_uefi_password
-      status: automated
+    # - id: 1.4.1
+    #   title: Ensure bootloader password is set (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - grub2_password
+    #       - grub2_uefi_password
+    #   status: automated
 
     - id: 1.4.2
       title: Ensure access to bootloader config is configured (Automated)
@@ -1225,8 +1225,8 @@ controls:
           - l1_server
           - l1_workstation
       rules:
-          - sysctl_net_ipv6_conf_all_accept_redirects
-          - sysctl_net_ipv6_conf_default_accept_redirects
+        #   - sysctl_net_ipv6_conf_all_accept_redirects
+        #   - sysctl_net_ipv6_conf_default_accept_redirects
           - sysctl_net_ipv4_conf_all_accept_redirects
           - sysctl_net_ipv4_conf_default_accept_redirects
       status: automated
@@ -1257,8 +1257,8 @@ controls:
           - l1_server
           - l1_workstation
       rules:
-          - sysctl_net_ipv6_conf_all_accept_source_route
-          - sysctl_net_ipv6_conf_default_accept_source_route
+        #   - sysctl_net_ipv6_conf_all_accept_source_route
+        #   - sysctl_net_ipv6_conf_default_accept_source_route
           - sysctl_net_ipv4_conf_all_accept_source_route
           - sysctl_net_ipv4_conf_default_accept_source_route
       status: automated
@@ -1282,15 +1282,15 @@ controls:
           - sysctl_net_ipv4_tcp_syncookies
       status: automated
 
-    - id: 3.3.11
-      title: Ensure ipv6 router advertisements are not accepted (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - sysctl_net_ipv6_conf_all_accept_ra
-          - sysctl_net_ipv6_conf_default_accept_ra
-      status: automated
+    # - id: 3.3.11
+    #   title: Ensure ipv6 router advertisements are not accepted (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - sysctl_net_ipv6_conf_all_accept_ra
+    #       - sysctl_net_ipv6_conf_default_accept_ra
+    #   status: automated
 
     - id: 4.1.1
       title: Ensure a single firewall configuration utility is in use (Automated)
@@ -1299,7 +1299,7 @@ controls:
           - l1_workstation
       rules:
           - firewall_single_service_active
-          - var_network_filtering_service=nftables
+        #   - var_network_filtering_service=nftables
       status: automated
       notes: |
           Remediation is not automated. To select which firewall to
@@ -1367,103 +1367,103 @@ controls:
           - set_ufw_default_rule
       status: automated
 
-    - id: 4.3.1
-      title: Ensure nftables is installed (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - package_nftables_installed
-      status: automated
+    # - id: 4.3.1
+    #   title: Ensure nftables is installed (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - package_nftables_installed
+    #   status: automated
 
-    - id: 4.3.2
-      title: Ensure ufw is uninstalled or disabled with nftables (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - package_ufw_removed
-      status: automated
+    # - id: 4.3.2
+    #   title: Ensure ufw is uninstalled or disabled with nftables (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - package_ufw_removed
+    #   status: automated
 
-    - id: 4.3.3
-      title: Ensure iptables are flushed with nftables (Manual)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: manual
+    # - id: 4.3.3
+    #   title: Ensure iptables are flushed with nftables (Manual)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: manual
 
-    - id: 4.3.4
-      title: Ensure a nftables table exists (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - var_nftables_family=inet
-          - var_nftables_table=filter
-          - set_nftables_table
-      status: automated
+    # - id: 4.3.4
+    #   title: Ensure a nftables table exists (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - var_nftables_family=inet
+    #       - var_nftables_table=filter
+    #       - set_nftables_table
+    #   status: automated
 
-    - id: 4.3.5
-      title: Ensure nftables base chains exist (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - var_nftables_base_chain_names=chain_names
-          - var_nftables_base_chain_types=chain_types
-          - var_nftables_base_chain_hooks=chain_hooks
-          - var_nftables_base_chain_priorities=chain_priorities
-          - var_nftables_base_chain_policies=chain_policies
-          - set_nftables_base_chain
-      status: automated
+    # - id: 4.3.5
+    #   title: Ensure nftables base chains exist (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - var_nftables_base_chain_names=chain_names
+    #       - var_nftables_base_chain_types=chain_types
+    #       - var_nftables_base_chain_hooks=chain_hooks
+    #       - var_nftables_base_chain_priorities=chain_priorities
+    #       - var_nftables_base_chain_policies=chain_policies
+    #       - set_nftables_base_chain
+    #   status: automated
 
-    - id: 4.3.6
-      title: Ensure nftables loopback traffic is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - set_nftables_loopback_traffic
-      status: automated
+    # - id: 4.3.6
+    #   title: Ensure nftables loopback traffic is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - set_nftables_loopback_traffic
+    #   status: automated
 
-    - id: 4.3.7
-      title: Ensure nftables outbound and established connections are configured (Manual)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: manual
+    # - id: 4.3.7
+    #   title: Ensure nftables outbound and established connections are configured (Manual)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: manual
 
-    - id: 4.3.8
-      title: Ensure nftables default deny firewall policy (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - nftables_ensure_default_deny_policy
-      status: automated
+    # - id: 4.3.8
+    #   title: Ensure nftables default deny firewall policy (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - nftables_ensure_default_deny_policy
+    #   status: automated
 
-    - id: 4.3.9
-      title: Ensure nftables service is enabled (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - service_nftables_enabled
-      status: automated
+    # - id: 4.3.9
+    #   title: Ensure nftables service is enabled (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - service_nftables_enabled
+    #   status: automated
 
-    - id: 4.3.10
-      title: Ensure nftables rules are permanent (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - var_nftables_master_config_file=etc
-          - nftables_rules_permanent
-      status: automated
-      notes: |
-          Audit procedure for 4.3.10 depends on local site policy thus
-          it cannot be fully automated. Upstream ticket:
-          https://workbench.cisecurity.org/benchmarks/18959/tickets/23190
+    # - id: 4.3.10
+    #   title: Ensure nftables rules are permanent (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - var_nftables_master_config_file=etc
+    #       - nftables_rules_permanent
+    #   status: automated
+    #   notes: |
+    #       Audit procedure for 4.3.10 depends on local site policy thus
+    #       it cannot be fully automated. Upstream ticket:
+    #       https://workbench.cisecurity.org/benchmarks/18959/tickets/23190
 
     - id: 4.4.1.1
       title: Ensure iptables packages are installed (Automated)
@@ -1527,41 +1527,41 @@ controls:
           - iptables_rules_for_open_ports
       status: automated
 
-    - id: 4.4.3.1
-      title: Ensure ip6tables default deny firewall policy (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - set_ip6tables_default_rule
-      status: automated
+    # - id: 4.4.3.1
+    #   title: Ensure ip6tables default deny firewall policy (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - set_ip6tables_default_rule
+    #   status: automated
 
-    - id: 4.4.3.2
-      title: Ensure ip6tables loopback traffic is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - set_ipv6_loopback_traffic
-      status: automated
+    # - id: 4.4.3.2
+    #   title: Ensure ip6tables loopback traffic is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - set_ipv6_loopback_traffic
+    #   status: automated
 
-    - id: 4.4.3.3
-      title: Ensure ip6tables outbound and established connections are configured (Manual)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: manual
+    # - id: 4.4.3.3
+    #   title: Ensure ip6tables outbound and established connections are configured (Manual)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: manual
 
-    - id: 4.4.3.4
-      title: Ensure ip6tables firewall rules exist for all open ports (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - ip6tables_rules_for_open_ports
-      status: automated
-      notes: |
-          Remediation is not automated to avoid lockout.
+    # - id: 4.4.3.4
+    #   title: Ensure ip6tables firewall rules exist for all open ports (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - ip6tables_rules_for_open_ports
+    #   status: automated
+    #   notes: |
+    #       Remediation is not automated to avoid lockout.
 
     - id: 5.1.1
       title: Ensure permissions on /etc/ssh/sshd_config are configured (Automated)
@@ -1595,14 +1595,14 @@ controls:
           - file_permissions_sshd_pub_key
       status: automated
 
-    - id: 5.1.4
-      title: Ensure sshd access is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - sshd_limit_user_access
-      status: automated
+    # - id: 5.1.4
+    #   title: Ensure sshd access is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - sshd_limit_user_access
+    #   status: automated
 
     - id: 5.1.5
       title: Ensure sshd Banner is configured (Automated)
@@ -1797,23 +1797,23 @@ controls:
           - sudo_add_use_pty
       status: automated
 
-    - id: 5.2.3
-      title: Ensure sudo log file exists (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - sudo_custom_logfile
-      status: automated
+    # - id: 5.2.3
+    #   title: Ensure sudo log file exists (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - sudo_custom_logfile
+    #   status: automated
 
-    - id: 5.2.4
-      title: Ensure users must provide password for privilege escalation (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - sudo_require_authentication
-      status: automated
+    # - id: 5.2.4
+    #   title: Ensure users must provide password for privilege escalation (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - sudo_require_authentication
+    #   status: automated
 
     - id: 5.2.5
       title: Ensure re-authentication for privilege escalation is not disabled globally (Automated)
@@ -1831,7 +1831,7 @@ controls:
           - l1_workstation
       rules:
           - var_sudo_timestamp_timeout=15_minutes
-          - sudo_require_reauthentication
+        #   - sudo_require_reauthentication
       status: automated
 
     - id: 5.2.7
@@ -1866,14 +1866,14 @@ controls:
           - package_pam_modules_installed
       status: automated
 
-    - id: 5.3.1.3
-      title: Ensure libpam-pwquality is installed (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - package_pam_pwquality_installed
-      status: automated
+    # - id: 5.3.1.3
+    #   title: Ensure libpam-pwquality is installed (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - package_pam_pwquality_installed
+    #   status: automated
 
     - id: 5.3.2.1
       title: Ensure pam_unix module is enabled (Automated)
@@ -1884,185 +1884,185 @@ controls:
           - accounts_password_pam_unix_enabled
       status: automated
 
-    - id: 5.3.2.2
-      title: Ensure pam_faillock module is enabled (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - accounts_passwords_pam_faillock_enabled
-      status: automated
+    # - id: 5.3.2.2
+    #   title: Ensure pam_faillock module is enabled (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - accounts_passwords_pam_faillock_enabled
+    #   status: automated
 
-    - id: 5.3.2.3
-      title: Ensure pam_pwquality module is enabled (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - accounts_password_pam_pwquality_enabled
-      status: automated
+    # - id: 5.3.2.3
+    #   title: Ensure pam_pwquality module is enabled (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - accounts_password_pam_pwquality_enabled
+    #   status: automated
 
-    - id: 5.3.2.4
-      title: Ensure pam_pwhistory module is enabled (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - accounts_password_pam_pwhistory_enabled
-      status: automated
+    # - id: 5.3.2.4
+    #   title: Ensure pam_pwhistory module is enabled (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - accounts_password_pam_pwhistory_enabled
+    #   status: automated
 
-    - id: 5.3.3.1.1
-      title: Ensure password failed attempts lockout is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - var_accounts_passwords_pam_faillock_deny=4
-          - accounts_passwords_pam_faillock_deny
-      status: automated
+    # - id: 5.3.3.1.1
+    #   title: Ensure password failed attempts lockout is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - var_accounts_passwords_pam_faillock_deny=4
+    #       - accounts_passwords_pam_faillock_deny
+    #   status: automated
 
-    - id: 5.3.3.1.2
-      title: Ensure password unlock time is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - var_accounts_passwords_pam_faillock_unlock_time=900
-          - accounts_passwords_pam_faillock_unlock_time
-      status: automated
+    # - id: 5.3.3.1.2
+    #   title: Ensure password unlock time is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - var_accounts_passwords_pam_faillock_unlock_time=900
+    #       - accounts_passwords_pam_faillock_unlock_time
+    #   status: automated
 
-    - id: 5.3.3.1.3
-      title: Ensure password failed attempts lockout includes root account (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - var_accounts_passwords_pam_faillock_root_unlock_time=60
-          - accounts_passwords_pam_faillock_root_unlock_time
-      status: automated
+    # - id: 5.3.3.1.3
+    #   title: Ensure password failed attempts lockout includes root account (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - var_accounts_passwords_pam_faillock_root_unlock_time=60
+    #       - accounts_passwords_pam_faillock_root_unlock_time
+    #   status: automated
 
-    - id: 5.3.3.2.1
-      title: Ensure password number of changed characters is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - var_password_pam_difok=2
-          - accounts_password_pam_difok
-      status: automated
+    # - id: 5.3.3.2.1
+    #   title: Ensure password number of changed characters is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - var_password_pam_difok=2
+    #       - accounts_password_pam_difok
+    #   status: automated
 
-    - id: 5.3.3.2.2
-      title: Ensure minimum password length is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - var_password_pam_minlen=14
-          - accounts_password_pam_minlen
-      status: automated
+    # - id: 5.3.3.2.2
+    #   title: Ensure minimum password length is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - var_password_pam_minlen=14
+    #       - accounts_password_pam_minlen
+    #   status: automated
 
-    - id: 5.3.3.2.3
-      title: Ensure password complexity is configured (Manual)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - var_password_pam_minclass=4
-          - var_password_pam_dcredit=1
-          - var_password_pam_lcredit=1
-          - var_password_pam_ocredit=1
-          - var_password_pam_ucredit=1
-          - accounts_password_pam_minclass
-          - accounts_password_pam_dcredit
-          - accounts_password_pam_lcredit
-          - accounts_password_pam_ocredit
-          - accounts_password_pam_ucredit
-      status: automated
+    # - id: 5.3.3.2.3
+    #   title: Ensure password complexity is configured (Manual)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - var_password_pam_minclass=4
+    #       - var_password_pam_dcredit=1
+    #       - var_password_pam_lcredit=1
+    #       - var_password_pam_ocredit=1
+    #       - var_password_pam_ucredit=1
+    #       - accounts_password_pam_minclass
+    #       - accounts_password_pam_dcredit
+    #       - accounts_password_pam_lcredit
+    #       - accounts_password_pam_ocredit
+    #       - accounts_password_pam_ucredit
+    #   status: automated
 
-    - id: 5.3.3.2.4
-      title: Ensure password same consecutive characters is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - var_password_pam_maxrepeat=3
-          - accounts_password_pam_maxrepeat
-      status: automated
+    # - id: 5.3.3.2.4
+    #   title: Ensure password same consecutive characters is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - var_password_pam_maxrepeat=3
+    #       - accounts_password_pam_maxrepeat
+    #   status: automated
 
-    - id: 5.3.3.2.5
-      title: Ensure password maximum sequential characters is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - accounts_password_pam_maxsequence
-      status: automated
+    # - id: 5.3.3.2.5
+    #   title: Ensure password maximum sequential characters is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - accounts_password_pam_maxsequence
+    #   status: automated
 
-    - id: 5.3.3.2.6
-      title: Ensure password dictionary check is enabled (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - var_password_pam_dictcheck=1
-          - accounts_password_pam_dictcheck
-      status: automated
+    # - id: 5.3.3.2.6
+    #   title: Ensure password dictionary check is enabled (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - var_password_pam_dictcheck=1
+    #       - accounts_password_pam_dictcheck
+    #   status: automated
 
-    - id: 5.3.3.2.7
-      title: Ensure password quality checking is enforced (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - var_password_pam_enforcing=1
-          - accounts_password_pam_enforcing
-      status: automated
+    # - id: 5.3.3.2.7
+    #   title: Ensure password quality checking is enforced (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - var_password_pam_enforcing=1
+    #       - accounts_password_pam_enforcing
+    #   status: automated
 
-    - id: 5.3.3.2.8
-      title: Ensure password quality is enforced for the root user (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - accounts_password_pam_enforce_root
-      status: automated
+    # - id: 5.3.3.2.8
+    #   title: Ensure password quality is enforced for the root user (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - accounts_password_pam_enforce_root
+    #   status: automated
 
-    - id: 5.3.3.3.1
-      title: Ensure password history remember is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - var_password_pam_remember=24
-          - accounts_password_pam_pwhistory_remember
-      status: automated
+    # - id: 5.3.3.3.1
+    #   title: Ensure password history remember is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - var_password_pam_remember=24
+    #       - accounts_password_pam_pwhistory_remember
+    #   status: automated
 
-    - id: 5.3.3.3.2
-      title: Ensure password history is enforced for the root user (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - accounts_password_pam_pwhistory_enforce_root
-      status: automated
+    # - id: 5.3.3.3.2
+    #   title: Ensure password history is enforced for the root user (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - accounts_password_pam_pwhistory_enforce_root
+    #   status: automated
 
-    - id: 5.3.3.3.3
-      title: Ensure pam_pwhistory includes use_authtok (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - accounts_password_pam_pwhistory_use_authtok
-      status: automated
+    # - id: 5.3.3.3.3
+    #   title: Ensure pam_pwhistory includes use_authtok (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - accounts_password_pam_pwhistory_use_authtok
+    #   status: automated
 
-    - id: 5.3.3.4.1
-      title: Ensure pam_unix does not include nullok (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - no_empty_passwords_unix
-      status: automated
+    # - id: 5.3.3.4.1
+    #   title: Ensure pam_unix does not include nullok (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - no_empty_passwords_unix
+    #   status: automated
 
     - id: 5.3.3.4.2
       title: Ensure pam_unix does not include remember (Automated)
@@ -2092,69 +2092,69 @@ controls:
           - accounts_password_pam_unix_authtok
       status: automated
 
-    - id: 5.4.1.1
-      title: Ensure password expiration is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - var_accounts_maximum_age_login_defs=365
-          - accounts_maximum_age_login_defs
-          - accounts_password_set_max_life_existing
-      status: automated
+    # - id: 5.4.1.1
+    #   title: Ensure password expiration is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - var_accounts_maximum_age_login_defs=365
+    #       - accounts_maximum_age_login_defs
+    #       - accounts_password_set_max_life_existing
+    #   status: automated
 
-    - id: 5.4.1.2
-      title: Ensure minimum password days is configured (Manual)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - var_accounts_minimum_age_login_defs=1
-          - accounts_minimum_age_login_defs
-          - accounts_password_set_min_life_existing
-      status: automated
+    # - id: 5.4.1.2
+    #   title: Ensure minimum password days is configured (Manual)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - var_accounts_minimum_age_login_defs=1
+    #       - accounts_minimum_age_login_defs
+    #       - accounts_password_set_min_life_existing
+    #   status: automated
 
-    - id: 5.4.1.3
-      title: Ensure password expiration warning days is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - var_accounts_password_warn_age_login_defs=7
-          - accounts_password_warn_age_login_defs
-      status: automated
+    # - id: 5.4.1.3
+    #   title: Ensure password expiration warning days is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - var_accounts_password_warn_age_login_defs=7
+    #       - accounts_password_warn_age_login_defs
+    #   status: automated
 
-    - id: 5.4.1.4
-      title: Ensure strong password hashing algorithm is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - set_password_hashing_algorithm_logindefs
-          - var_password_hashing_algorithm=cis_ubuntu2404
-      status: automated
-      notes: Rule allows either SHA512 or YESCRYPT
+    # - id: 5.4.1.4
+    #   title: Ensure strong password hashing algorithm is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - set_password_hashing_algorithm_logindefs
+    #       - var_password_hashing_algorithm=cis_ubuntu2404
+    #   status: automated
+    #   notes: Rule allows either SHA512 or YESCRYPT
 
-    - id: 5.4.1.5
-      title: Ensure inactive password lock is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - var_account_disable_post_pw_expiration=45
-          - account_disable_post_pw_expiration
-          - accounts_set_post_pw_existing
-      status: automated
-      notes: CIS setting now 45 days.
+    # - id: 5.4.1.5
+    #   title: Ensure inactive password lock is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - var_account_disable_post_pw_expiration=45
+    #       - account_disable_post_pw_expiration
+    #       - accounts_set_post_pw_existing
+    #   status: automated
+    #   notes: CIS setting now 45 days.
 
-    - id: 5.4.1.6
-      title: Ensure all users last password change date is in the past (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - accounts_password_last_change_is_in_past
-      status: automated
+    # - id: 5.4.1.6
+    #   title: Ensure all users last password change date is in the past (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - accounts_password_last_change_is_in_past
+    #   status: automated
 
     - id: 5.4.2.1
       title: Ensure root is the only UID 0 account (Automated)
@@ -2189,17 +2189,16 @@ controls:
           The remediation is not automated as the removal or modification
           of group IDs from a system is too disruptive.
 
-    - id: 5.4.2.4
-      title: Ensure root account access is controlled (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - ensure_root_access_controlled
-      status: automated
-      notes: |-
-          This rule doesn't come with a remediation, as the exact requirement allows root to either
-          have a password or be locked.
+    # - id: 5.4.2.4
+    #   title: Ensure root account access is controlled (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - ensure_root_access_controlled
+    #   status: automated
+    #   notes: This rule doesn't come with a remediation, as the exact requirement allows root to either
+    #       have a password or be locked.
 
     - id: 5.4.2.5
       title: Ensure root path integrity (Automated)
@@ -2251,15 +2250,15 @@ controls:
           - no_nologin_in_shells
       status: automated
 
-    - id: 5.4.3.2
-      title: Ensure default user shell timeout is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - var_accounts_tmout=15_min
-          - accounts_tmout
-      status: automated
+    # - id: 5.4.3.2
+    #   title: Ensure default user shell timeout is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - var_accounts_tmout=15_min
+    #       - accounts_tmout
+    #   status: automated
 
     - id: 5.4.3.3
       title: Ensure default user umask is configured (Automated)
@@ -2503,96 +2502,95 @@ controls:
           - permissions_local_var_log
       status: automated
 
-    - id: 6.2.1.1
-      title: Ensure auditd packages are installed (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - package_audit_installed
-          - package_audit-audispd-plugins_installed
-      status: automated
-      notes: |
-          Implementation analogous to ubuntu2204/4.1.1.1.
-          Added also the missing rule for audispd.
+    # - id: 6.2.1.1
+    #   title: Ensure auditd packages are installed (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - package_audit_installed
+    #       - package_audit-audispd-plugins_installed
+    #   status: automated
+    #   notes: |
+    #       Implementation analogous to ubuntu2204/4.1.1.1.
+    #       Added also the missing rule for audispd.
 
-    - id: 6.2.1.2
-      title: Ensure auditd service is enabled and active (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - service_auditd_enabled
-      status: automated
+    # - id: 6.2.1.2
+    #   title: Ensure auditd service is enabled and active (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - service_auditd_enabled
+    #   status: automated
 
-    - id: 6.2.1.3
-      title: Ensure auditing for processes that start prior to auditd is enabled (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - grub2_audit_argument
-          - zipl_audit_argument
-      status: automated
+    # - id: 6.2.1.3
+    #   title: Ensure auditing for processes that start prior to auditd is enabled (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - grub2_audit_argument
+    #       - zipl_audit_argument
+    #   status: automated
 
-    - id: 6.2.1.4
-      title: Ensure audit_backlog_limit is sufficient (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - grub2_audit_backlog_limit_argument
-          - var_audit_backlog_limit=8192
-          - zipl_audit_backlog_limit_argument
-      status: automated
+    # - id: 6.2.1.4
+    #   title: Ensure audit_backlog_limit is sufficient (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - grub2_audit_backlog_limit_argument
+    #       - zipl_audit_backlog_limit_argument
+    #   status: automated
 
-    - id: 6.2.2.1
-      title: Ensure audit log storage size is configured (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - var_auditd_max_log_file=6
-          - auditd_data_retention_max_log_file
-      status: automated
+    # - id: 6.2.2.1
+    #   title: Ensure audit log storage size is configured (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - var_auditd_max_log_file=6
+    #       - auditd_data_retention_max_log_file
+    #   status: automated
 
-    - id: 6.2.2.2
-      title: Ensure audit logs are not automatically deleted (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - var_auditd_max_log_file_action=keep_logs
-          - auditd_data_retention_max_log_file_action
-      status: automated
+    # - id: 6.2.2.2
+    #   title: Ensure audit logs are not automatically deleted (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - var_auditd_max_log_file_action=keep_logs
+    #       - auditd_data_retention_max_log_file_action
+    #   status: automated
 
-    - id: 6.2.2.3
-      title: Ensure system is disabled when audit logs are full (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - var_auditd_disk_error_action=cis_ubuntu2404
-          - var_auditd_disk_full_action=cis_ubuntu2404
-          - auditd_data_disk_error_action
-          - auditd_data_disk_full_action
-      status: automated
+    # - id: 6.2.2.3
+    #   title: Ensure system is disabled when audit logs are full (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - var_auditd_disk_error_action=cis_ubuntu2404
+    #       - var_auditd_disk_full_action=cis_ubuntu2404
+    #       - auditd_data_disk_error_action
+    #       - auditd_data_disk_full_action
+    #   status: automated
 
-    - id: 6.2.2.4
-      title: Ensure system warns when audit logs are low on space (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - var_auditd_action_mail_acct=root
-          - var_auditd_space_left_action=email
-          - var_auditd_admin_space_left_action=halt
-          - auditd_data_retention_action_mail_acct
-          - auditd_data_retention_admin_space_left_action
-          - auditd_data_retention_space_left_action
-      status: partial
-      notes: |
-          The variables should allow multiple options.
+    # - id: 6.2.2.4
+    #   title: Ensure system warns when audit logs are low on space (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - var_auditd_action_mail_acct=root
+    #       - var_auditd_space_left_action=email
+    #       - var_auditd_admin_space_left_action=halt
+    #       - auditd_data_retention_action_mail_acct
+    #       - auditd_data_retention_admin_space_left_action
+    #       - auditd_data_retention_space_left_action
+    #   status: partial
+    #   notes: |
+    #       The variables should allow multiple options.
 
     - id: 6.2.3.1
       title: Ensure changes to system administration scope (sudoers) is collected (Automated)
@@ -2910,33 +2908,33 @@ controls:
           - file_groupownership_audit_binaries
       status: automated
 
-    - id: 6.3.1
-      title: Ensure AIDE is installed (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - aide_build_database
-          - package_aide_installed
-      status: automated
+    # - id: 6.3.1
+    #   title: Ensure AIDE is installed (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - aide_build_database
+    #       - package_aide_installed
+    #   status: automated
 
-    - id: 6.3.2
-      title: Ensure filesystem integrity is regularly checked (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - aide_periodic_checking_systemd_timer
-      status: automated
+    # - id: 6.3.2
+    #   title: Ensure filesystem integrity is regularly checked (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - aide_periodic_checking_systemd_timer
+    #   status: automated
 
-    - id: 6.3.3
-      title: Ensure cryptographic mechanisms are used to protect the integrity of audit tools (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      rules:
-          - aide_check_audit_tools
-      status: automated
+    # - id: 6.3.3
+    #   title: Ensure cryptographic mechanisms are used to protect the integrity of audit tools (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   rules:
+    #       - aide_check_audit_tools
+    #   status: automated
 
     - id: 7.1.1
       title: Ensure permissions on /etc/passwd are configured (Automated)
@@ -3060,15 +3058,15 @@ controls:
           - file_permissions_unauthorized_world_writable
       status: automated
 
-    - id: 7.1.12
-      title: Ensure no files or directories without an owner and a group exist (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - no_files_unowned_by_user
-          - file_permissions_ungroupowned
-      status: automated
+    # - id: 7.1.12
+    #   title: Ensure no files or directories without an owner and a group exist (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - no_files_unowned_by_user
+    #       - file_permissions_ungroupowned
+    #   status: automated
 
     - id: 7.1.13
       title: Ensure SUID and SGID files are reviewed (Manual)
@@ -3086,14 +3084,14 @@ controls:
           - accounts_password_all_shadowed
       status: automated
 
-    - id: 7.2.2
-      title: Ensure /etc/shadow password fields are not empty (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      rules:
-          - no_empty_passwords_etc_shadow
-      status: automated
+    # - id: 7.2.2
+    #   title: Ensure /etc/shadow password fields are not empty (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   rules:
+    #       - no_empty_passwords_etc_shadow
+    #   status: automated
 
     - id: 7.2.3
       title: Ensure all groups in /etc/passwd exist in /etc/group (Automated)

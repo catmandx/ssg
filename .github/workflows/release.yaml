@@ -22,7 +22,7 @@ jobs:
         run: make -j2 ubuntu2404
         working-directory: ./build
       - name: Build RHEL 9 only
-        run: make -j2 RHEL9
+        run: make -j2 rhel9
         working-directory: ./build
       - name: Set Version
         id: set_version

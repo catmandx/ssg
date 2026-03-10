@@ -21,6 +21,9 @@ jobs:
       - name: Build Ubuntu 24.04 only
         run: make -j2 ubuntu2404
         working-directory: ./build
+      - name: Build RHEL 9 only
+        run: make -j2 RHEL9
+        working-directory: ./build
       - name: Set Version
         id: set_version
         run: |-
@@ -44,5 +47,6 @@ jobs:
           body: ${{ steps.build_changelog.outputs.changelog }}
           files: |
             build/ssg-ubuntu2404-ds.xml
+            build/ssg-rhel9-ds.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

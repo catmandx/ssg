@@ -1,5 +1,4 @@
 from __future__ import absolute_import
-from __future__ import print_function
 
 import os.path
 import os
@@ -29,7 +28,7 @@ SSG_REF_URIS = {
     'hipaa': 'https://www.gpo.gov/fdsys/pkg/CFR-2007-title45-vol1/pdf/CFR-2007-title45-vol1-chapA-subchapC.pdf',
     'ism': 'https://www.cyber.gov.au/acsc/view-all-content/ism',
     'iso27001-2013': 'https://www.iso.org/contents/data/standard/05/45/54534.html',
-    'nerc-cip': 'https://www.nerc.com/pa/Stand/AlignRep/One%20Stop%20Shop.xlsx',
+    'nerc-cip': 'https://www.nerc.com/standards/reliability-standards/cip',
     'stigid': 'https://www.cyber.mil/stigs/downloads/?_dl_facet_stigs=operating-systems%2Cunix-linux',
     'os-srg': 'https://www.cyber.mil/stigs/downloads/?_dl_facet_stigs=operating-systems%2Cgeneral-purpose-os',
     'app-srg': 'https://www.cyber.mil/stigs/downloads/?_dl_facet_stigs=application-servers',
@@ -44,7 +43,6 @@ product_directories = [
     'anolis8',
     'anolis23',
     'al2023',
-    'chromium',
     'debian11', 'debian12', 'debian13',
     'example',
     'eks',
@@ -215,7 +213,6 @@ FULL_NAME_TO_PRODUCT_MAPPING = {
     "Anolis OS 8": "anolis8",
     "Anolis OS 23": "anolis23",
     "Amazon Linux 2023": "al2023",
-    "Chromium": "chromium",
     "Debian 11": "debian11",
     "Debian 12": "debian12",
     "Debian 13": "debian13",
@@ -248,9 +245,6 @@ FULL_NAME_TO_PRODUCT_MAPPING = {
     "Not Applicable": "example",
 }
 
-
-# see xccdf-addremediations.xslt <- shared_constants.xslt
-# if you want to know how the map was constructed
 REF_PREFIX_MAP = {
     "nist": "NIST-800-53",
     "cui": "NIST-800-171",
@@ -430,7 +424,6 @@ MAKEFILE_ID_TO_PRODUCT_MAP = {
     'alinux': 'Alibaba Cloud Linux',
     'almalinux': 'AlmaLinux OS',
     'anolis': 'Anolis OS',
-    'chromium': 'Google Chromium Browser',
     'fedora': 'Fedora',
     'firefox': 'Mozilla Firefox',
     'kylinserver': 'Kylin Server',
@@ -465,6 +458,11 @@ DEFAULT_AUDIT_WATCHES_STYLE = 'legacy'
 DEFAULT_RSYSLOG_CAFILE = '/etc/pki/tls/cert.pem'
 DEFAULT_FAILLOCK_PATH = '/var/run/faillock'
 DEFAULT_SSH_DISTRIBUTED_CONFIG = 'false'
+DEFAULT_SSH_RUNTIME_CHECK = 'false'
+DEFAULT_SSHD_MAIN_CONFIG_FILE = '/etc/ssh/sshd_config'
+DEFAULT_SSHD_CONFIG_DIR = '/etc/ssh/sshd_config.d'
+DEFAULT_SSHD_HARDENING_CONFIG_BASENAME = '00-complianceascode-hardening.conf'
+DEFAULT_SSHD_SYSCONFIG_FILE = '/etc/sysconfig/sshd'
 DEFAULT_PRODUCT = 'example'
 DEFAULT_CHRONY_CONF_PATH = '/etc/chrony.conf'
 DEFAULT_CHRONY_D_PATH = '/etc/chrony.d/'
@@ -505,7 +503,6 @@ DERIVATIVES_PRODUCT_MAPPING = {
 BENCHMARKS = {
     "applications",
     "linux_os/guide",
-    "products/chromium/guide",
     "products/firefox/guide",
 }
 

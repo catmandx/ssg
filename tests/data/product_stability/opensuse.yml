@@ -47,6 +47,7 @@ init_system: systemd
 login_defs_path: /etc/login.defs
 nobody_gid: 65534
 nobody_uid: 65534
+pam_faillock_conf_path: /etc/security/faillock.conf
 pkg_manager: zypper
 pkg_manager_config_file: /etc/zypp/zypper.conf
 pkg_system: rpm
@@ -66,6 +67,8 @@ platform_package_overrides:
   zipl: s390utils-base
 product: opensuse
 profiles_root: ./profiles
+pwhistory_path: /etc/security/pwhistory.conf
+pwquality_path: /etc/security/pwquality.conf
 reference_uris:
   anssi: https://cyber.gouv.fr/sites/default/files/document/linux_configuration-en-v2.pdf
   app-srg: https://www.cyber.mil/stigs/downloads/?_dl_facet_stigs=application-servers
@@ -82,7 +85,7 @@ reference_uris:
   isa-62443-2013: https://www.isa.org/products/ansi-isa-62443-3-3-99-03-03-2013-security-for-indu
   ism: https://www.cyber.gov.au/acsc/view-all-content/ism
   iso27001-2013: https://www.iso.org/contents/data/standard/05/45/54534.html
-  nerc-cip: https://www.nerc.com/pa/Stand/AlignRep/One%20Stop%20Shop.xlsx
+  nerc-cip: https://www.nerc.com/standards/reliability-standards/cip
   nist: http://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-53r4.pdf
   nist-csf: https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.04162018.pdf
   os-srg: https://www.cyber.mil/stigs/downloads/?_dl_facet_stigs=operating-systems%2Cgeneral-purpose-os
@@ -92,8 +95,14 @@ reference_uris:
   stigid: https://www.cyber.mil/stigs/downloads/?_dl_facet_stigs=operating-systems%2Cunix-linux
   stigref: https://www.cyber.mil/stigs/srg-stig-tools/
 rsyslog_cafile: /etc/pki/tls/cert.pem
-sshd_distributed_config: "false"
-sysctl_remediate_drop_in_file: "false"
+sshd_config_base_dir: /etc/ssh
+sshd_config_dir: /etc/ssh/sshd_config.d
+sshd_distributed_config: 'false'
+sshd_hardening_config_basename: 00-complianceascode-hardening.conf
+sshd_main_config_file: /etc/ssh/sshd_config
+sshd_sysconfig_file: /etc/sysconfig/sshd
+sshd_runtime_check: 'false'
+sysctl_remediate_drop_in_file: 'false'
 target_oval_version:
   - 5
   - 11

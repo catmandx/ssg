@@ -28,6 +28,7 @@ identifiers:
     cce@rhel10: CCE-88433-8
     cce@sle12: CCE-91479-6
     cce@sle15: CCE-85804-3
+    cce@sle16: CCE-96247-2
     cce@slmicro5: CCE-93949-6
 
 references:
@@ -68,5 +69,6 @@ template:
         filemode@debian13: '0640'
         filemode@sle12: '0640'
         filemode@sle15: '0640'
+        filemode@sle16: '0640'
         filemode@ubuntu2204: '0640'
         filemode@ubuntu2404: '0640'

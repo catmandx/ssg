@@ -62,7 +62,6 @@ auditd_name_format
 chronyd_client_only
 configure_crypto_policy
 configure_openssl_crypto_policy
-configure_ssh_crypto_policy
 configure_usbguard_auditbackend
 disable_ctrlaltdel_burstaction
 disable_ctrlaltdel_reboot
@@ -142,6 +141,7 @@ use_pam_wheel_for_su
 var_accounts_passwords_pam_faillock_deny=3
 var_accounts_passwords_pam_faillock_fail_interval=900
 var_accounts_passwords_pam_faillock_unlock_time=never
+var_audit_backlog_limit=8192
 var_auditd_flush=incremental_async
 var_authselect_profile=minimal
 var_logind_session_timeout=30_minutes

@@ -26,10 +26,12 @@ $ oc get {{% if all_namespaces %}}--all-namespaces{{% elif namespace %}}-n {{{ n
 
 
 {{% macro sshd_config_file() %}}
+    {{% set sshd_main_config = sshd_main_config_file %}}
+    {{% set sshd_hardening_config = sshd_config_dir ~ "/" ~ sshd_hardening_config_basename %}}
     {{% if sshd_distributed_config == "true" %}}
-    <tt>/etc/ssh/sshd_config.d/00-complianceascode-hardening.conf</tt>:
+    <tt>{{{ sshd_hardening_config }}}</tt>:
     {{% else %}}
-    <tt>/etc/ssh/sshd_config</tt>:
+    <tt>{{{ sshd_main_config }}}</tt>:
     {{% endif %}}
 {{%- endmacro %}}
 
@@ -509,14 +511,17 @@ ocil_clause: "the required value is not set"
 
 #}}
 {{% macro ocil_sshd_option(default, option, value) -%}}
+    {{% set sshd_main_config = sshd_main_config_file %}}
+    {{% set sshd_hardening_config = sshd_config_dir ~ "/" ~ sshd_hardening_config_basename %}}
+    {{% set sshd_reinforce_defaults_config = sshd_config_dir ~ "/01-complianceascode-reinforce-os-defaults.conf" %}}
     To determine how the SSH daemon's <tt>{{{ option }}}</tt> option is set, run the following command:
     {{% if sshd_distributed_config == "true" %}}
-    <pre>$ sudo grep -i {{{ option }}} /etc/ssh/sshd_config.d/00-complianceascode-hardening.conf</pre>
+    <pre>$ sudo grep -i {{{ option }}} {{{ sshd_hardening_config }}}</pre>
     {{% if default == "yes" -%}}
-    <pre>$ sudo grep -i {{{ option }}} /etc/ssh/sshd_config.d/01-complianceascode-reinforce-os-defaults.conf</pre>
+    <pre>$ sudo grep -i {{{ option }}} {{{ sshd_reinforce_defaults_config }}}</pre>
     {{%- endif %}}
     {{% else %}}
-    <pre>$ sudo grep -i {{{ option }}} /etc/ssh/sshd_config</pre>
+    <pre>$ sudo grep -i {{{ option }}} {{{ sshd_main_config }}}</pre>
     {{% endif %}}
     If a line indicating <tt>{{{ value }}}</tt> is returned, then the required value is set.
 {{%- endmacro %}}
@@ -1537,4 +1542,21 @@ Create an OCIL text for rules that use the audit_rules_watch platform.
 {{% else %}}
     -w {{{ path }}} -p wa -k {{{ key }}}
 {{% endif %}}
+{{% endmacro %}}
+
+{{#
+Create an OCIL text for rules that use the crypto_sub_policies template.
+
+:param module_name: crypto sub policy name, eg. `NO-SSHWEAKCIPHERS`
+:type module_name: str
+:param key: The entry key, eg. cipher@SSH
+:type key: str
+:param value: The entry value, eg. -3DES-CBC -AES-128-CBC -AES-192-CBC -AES-256-CBC -CHACHA20-POLY1305
+:type value: str
+#}}
+{{% macro ocil_crypto_sub_policy(module_name, key, value) %}}
+    Verify that <tt>/etc/crypto-policies/policies/modules/{{{ module_name }}}.pmod</tt> exists and has the following content:
+    <pre>
+    {{{ key }}} = {{{ value }}}
+    </pre>
 {{% endmacro %}}

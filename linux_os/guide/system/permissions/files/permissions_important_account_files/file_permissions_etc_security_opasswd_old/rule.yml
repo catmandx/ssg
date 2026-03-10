@@ -12,6 +12,8 @@ rationale: |-
 severity: medium
 
 identifiers:
+    cce@rhel8: CCE-89332-1
+    cce@rhel10: CCE-87434-7
     cce@sle15: CCE-92559-4
 
 ocil_clause: '{{{ ocil_clause_file_permissions(file="/etc/security/opasswd.old", perms="0600") }}}'

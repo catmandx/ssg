@@ -25,9 +25,9 @@ selections:
     - '!cracklib_accounts_password_pam_ocredit'
     - '!accounts_passwords_pam_tally2_unlock_time'
     - '!ensure_redhat_gpgkey_installed'
+    - '!package_sequoia-sq_installed'
     - '!ensure_almalinux_gpgkey_installed'
     - '!package_kea_removed'
-    - '!no_nis_in_nsswitch'
     # package not available in OL8
     - '!package_talk-server_removed'
     - '!package_talk_removed'

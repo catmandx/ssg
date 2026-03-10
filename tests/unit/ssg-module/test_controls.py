@@ -1,6 +1,5 @@
 import pytest
 import os
-import sys
 
 import ssg.controls
 import ssg.build_yaml
@@ -8,7 +7,7 @@ from ssg.environment import open_environment
 
 ssg_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "data"))
-controls_dir = os.path.join(data_dir, "controls_dir")
+controls_dir = [os.path.join(data_dir, "controls_dir")]
 profiles_dir = os.path.join(data_dir, "profiles_dir")
 
 
@@ -63,6 +62,13 @@ def env_yaml():
     env_yaml = open_environment(build_config_yaml, product_yaml)
     return env_yaml
 
+@pytest.fixture
+def rhel8_controls_manager(env_yaml):
+    rhel_controls_dir =  controls_dir.copy()
+    rhel_controls_dir.append(os.path.join(data_dir, "content_dir", "products", "rhel8", "controls"))
+    controls_manager = ssg.controls.ControlsManager(rhel_controls_dir, env_yaml)
+    return controls_manager
+
 
 @pytest.fixture
 def controls_manager(env_yaml):
@@ -84,7 +90,7 @@ def compiled_controls_dir_py3(tmp_path):
 @pytest.fixture
 def compiled_controls_manager(env_yaml, controls_manager,compiled_controls_dir_py2):
     controls_manager.save_everything(compiled_controls_dir_py2)
-    controls_manager = ssg.controls.ControlsManager(compiled_controls_dir_py2, env_yaml)
+    controls_manager = ssg.controls.ControlsManager([compiled_controls_dir_py2], env_yaml)
     controls_manager.load_compiled()
     return controls_manager
 
@@ -97,7 +103,6 @@ def test_controls_load(controls_manager):
     _load_test(controls_manager, "abcd")
 
 
-@pytest.mark.skipif(sys.version_info[0] < 3, reason="requires python3 or higher")
 def test_controls_invalid_rules(env_yaml):
     existing_rules = {"accounts_tmout", "configure_crypto_policy"}
     controls_manager = ssg.controls.ControlsManager(
@@ -108,7 +113,6 @@ def test_controls_invalid_rules(env_yaml):
         "Control abcd:R1 contains nonexisting rule(s) sshd_set_idle_timeout"
 
 
-@pytest.mark.skipif(sys.version_info[0] < 3, reason="requires python3 or higher")
 def test_controls_levels(controls_manager):
     # Default level is the lowest level
     c_1 = controls_manager.get_control("abcd-levels", "S1")
@@ -413,7 +417,7 @@ def test_policy_parse_from_nested(minimal_empty_controls, one_simple_subcontrol)
     assert subcontrol.title == "subcontrol"
     assert subcontrol.selections == ["b"]
 
-    controls_manager = ssg.controls.ControlsManager("", dict())
+    controls_manager = ssg.controls.ControlsManager([""], dict())
     controls_manager.policies[policy.id] = policy
 
     controls_manager.resolve_controls()
@@ -428,7 +432,7 @@ def test_manager_removes_rules():
     policy.save_controls_tree([control_dict])
     policy.id = "P"
 
-    controls_manager = ssg.controls.ControlsManager("", dict())
+    controls_manager = ssg.controls.ControlsManager([], dict())
     controls_manager.policies[policy.id] = policy
 
     control = controls_manager.get_control("P", "top")
@@ -453,7 +457,7 @@ def test_policy_parse_from_nested2():
     policy = ssg.controls.Policy("")
     policy.id = "P"
 
-    controls_manager = ssg.controls.ControlsManager("", dict())
+    controls_manager = ssg.controls.ControlsManager([], dict())
     controls_manager.policies[policy.id] = policy
 
     controls = policy.save_controls_tree([top_control_dict, second_nested_dict, first_nested_dict])  # noqa: F841
@@ -476,7 +480,7 @@ def test_policy_parse_from_ours_and_foreign():
     foreign_policy.id = "foreign"
     foreign_policy.save_controls_tree([foreign_control_dict])
 
-    controls_manager = ssg.controls.ControlsManager("", dict())
+    controls_manager = ssg.controls.ControlsManager([], dict())
     controls_manager.policies[main_policy.id] = main_policy
     controls_manager.policies[foreign_policy.id] = foreign_policy
 
@@ -506,7 +510,7 @@ def test_policy_parse_foreign_with_all():
     foreign_policy.levels_by_id = {"level_1": level1, "level_2": level2}
     foreign_policy.save_controls_tree(foreign_control_dicts)
 
-    controls_manager = ssg.controls.ControlsManager("", dict())
+    controls_manager = ssg.controls.ControlsManager([], dict())
     controls_manager.policies[main_policy.id] = main_policy
     controls_manager.policies[foreign_policy.id] = foreign_policy
 
@@ -593,3 +597,14 @@ def test_references_from_controls(controls_manager, rules_for_test_references_fr
     assert len(rules["compiled_references_test_rule_2"].references) == 2
     assert rules["compiled_references_test_rule_2"].references["cis"] == ["R2"]
     assert rules["compiled_references_test_rule_2"].references["stig"] == ["17"]
+
+
+def test_product_controls(rhel8_controls_manager: ssg.controls.ControlsManager):
+    rhel8_controls_manager.load()
+    s1 = rhel8_controls_manager.get_control("wxyz-levels", "S1")
+    assert s1.title == "Package sudo must be installed"
+
+
+def test_not_overriding_controls(rhel8_controls_manager: ssg.controls.ControlsManager):
+    rhel8_controls_manager.load()
+    assert_control_confirms_to_standard(rhel8_controls_manager, 'abcd')

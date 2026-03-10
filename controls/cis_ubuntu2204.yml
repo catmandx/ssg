@@ -528,7 +528,8 @@ controls:
           - l1_server
           - l1_workstation
       rules:
-          - login_banner_text=cis_default
+          - dconf_login_banner_text=cis_default
+          - dconf_login_banner_contents=cis_default
           - dconf_gnome_banner_enabled
           - dconf_gnome_login_banner_text
       status: automated
@@ -1495,8 +1496,11 @@ controls:
           - l1_workstation
       rules:
           - file_groupowner_sshd_config
+          - file_groupowner_sshd_drop_in_config
           - file_owner_sshd_config
+          - file_owner_sshd_drop_in_config
           - file_permissions_sshd_config
+          - file_permissions_sshd_drop_in_config
       status: automated
 
     - id: 5.1.2

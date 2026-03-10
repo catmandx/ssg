@@ -373,6 +373,7 @@ selections:
     - group_unique_name
     - grub2_audit_argument
     - grub2_audit_backlog_limit_argument
+    - var_audit_backlog_limit=8192
     - grub2_enable_apparmor
     - grub2_password
     - grub2_uefi_password
@@ -581,8 +582,7 @@ selections:
     - sudo_add_use_pty
     - sudo_custom_logfile
     - sudo_remove_no_authenticate
-    - sudo_require_authentication
-    - sudo_require_reauthentication
+    - sudo_remove_nopasswd
     - sysctl_fs_suid_dumpable
     - sysctl_kernel_dmesg_restrict
     - sysctl_kernel_randomize_va_space

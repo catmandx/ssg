@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import os
+import re
 
 import argparse
 
@@ -8,6 +9,35 @@ import ssg.build_yaml
 import ssg.controls
 import ssg.environment
 import ssg.jinja
+
+
+def get_var_value(var_dir, varname, profile=None):
+    var_path = os.path.join(var_dir, varname + ".json")
+    var = ssg.build_yaml.Value.from_compiled_json(var_path)
+    if profile is None:
+        return var.options["default"]
+    for s in profile.selections:
+        if s.startswith(varname + "="):
+            selector = s.split("=")[1]
+            return var.options[selector]
+
+
+def fix_var_sub_in_text(text, varname, value):
+    if text is None:
+        return None
+    return re.sub(
+        r'<sub\s+idref="{var}"\s*/>'.format(var=varname),
+        r"<tt>{val}</tt>".format(val=value), text)
+
+
+def resolve_var_substitutions(var_dir, rule, profile=None):
+    variables = set(re.findall(r'<sub\s+idref="([^"]*)"\s*/>', rule.description))
+    for var in variables:
+        val = get_var_value(var_dir, var, profile)
+        rule.description = fix_var_sub_in_text(rule.description, var, val)
+        rule.ocil = fix_var_sub_in_text(rule.ocil, var, val)
+        rule.ocil_clause = fix_var_sub_in_text(rule.ocil_clause, var, val)
+    return rule
 
 
 def render_template(data, template_path, output_filename):
@@ -98,8 +128,8 @@ class Renderer(object):
             abs_basedir = os.path.join(lookup_dirs[0], template_basedir)
             lookup_dirs.append(abs_basedir)
 
-        ssg.jinja._get_jinja_environment(dict())
-        ssg.jinja._get_jinja_environment.env.loader = FlexibleLoader(lookup_dirs)
+        env = ssg.jinja._get_jinja_environment({})
+        env.loader = FlexibleLoader(lookup_dirs)
         return ssg.jinja.process_file(html_jinja_template, subst_dict)
 
     def output_results(self, args):

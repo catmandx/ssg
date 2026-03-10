@@ -3,7 +3,7 @@ policy: SUSE Linux Enterprise Micro (SLEM) 5 Security Technical Implementation G
 title: SUSE Linux Enterprise Micro (SLEM) 5 Security Technical Implementation Guide
 id: stig_slmicro5
 source: https://www.cyber.mil/stigs/downloads/
-version: V1R2
+version: V1R3
 reference_type: stigid
 product: slmicro5
 
@@ -36,6 +36,7 @@ controls:
       rules:
           - banner_etc_issue
           - login_banner_text=dod_banners
+          - login_banner_contents=dod_default
       status: automated
 
     - id: SLEM-05-211025
@@ -853,14 +854,6 @@ controls:
       title: SLEM 5 must not have duplicate User IDs (UIDs) for interactive users.
       rules:
           - account_unique_id
-      status: automated
-
-    - id: SLEM-05-412010
-      levels:
-          - medium
-      title: SLEM 5 must display the date and time of the last successful account logon upon logon.
-      rules:
-          - display_login_attempts
       status: automated
 
     - id: SLEM-05-412015

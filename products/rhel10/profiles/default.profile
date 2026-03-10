@@ -12,6 +12,7 @@ description: |-
     this profile is to keep a rule in the product's XCCDF Benchmark.
 
 selections:
+    - sshd_use_strong_kex
     - grub2_nousb_argument
     - audit_rules_kernel_module_loading_create
     - grub2_uefi_admin_username
@@ -41,3 +42,7 @@ selections:
     - package_systemd-journal-remote_installed
     - journald_storage
     - partition_for_dev_shm
+    - file_etc_security_opasswd
+    - sshd_use_strong_macs
+    - configure_ssh_crypto_policy
+    - package_dnsmasq_removed

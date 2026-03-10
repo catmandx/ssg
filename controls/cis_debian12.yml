@@ -540,7 +540,8 @@ controls:
           - l1_server
           - l1_workstation
       rules:
-          - login_banner_text=cis_default
+          - dconf_login_banner_text=cis_default
+          - dconf_login_banner_contents=cis_default
           - dconf_gnome_banner_enabled
           - dconf_gnome_login_banner_text
       status: automated
@@ -2515,6 +2516,7 @@ controls:
           - l2_workstation
       rules:
           - grub2_audit_backlog_limit_argument
+          - var_audit_backlog_limit=8192
           - zipl_audit_backlog_limit_argument
       status: automated
 

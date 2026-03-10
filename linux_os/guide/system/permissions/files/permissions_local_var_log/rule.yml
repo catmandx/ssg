@@ -28,6 +28,7 @@ severity: medium
 identifiers:
     cce@sle12: CCE-92224-5
     cce@sle15: CCE-85755-7
+    cce@sle16: CCE-96135-9
     cce@slmicro5: CCE-93660-9
     cce@slmicro6: CCE-94687-1
 
@@ -62,6 +63,7 @@ template:
         filepath: /var/log/
         recursive@sle12: 'true'
         recursive@sle15: 'true'
+        recursive@sle16: 'true'
         recursive@slmicro5: 'true'
         recursive@slmicro6: 'true'
         recursive@ubuntu2204: 'true'

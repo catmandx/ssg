@@ -3,7 +3,6 @@ Common functions for processing Products in SSG
 """
 
 from __future__ import absolute_import
-from __future__ import print_function
 
 import os
 import yaml
@@ -17,6 +16,11 @@ from .constants import (DEFAULT_PRODUCT, product_directories,
                         DEFAULT_AUDIT_WATCHES_STYLE,
                         DEFAULT_RSYSLOG_CAFILE,
                         DEFAULT_SSH_DISTRIBUTED_CONFIG,
+                        DEFAULT_SSH_RUNTIME_CHECK,
+                        DEFAULT_SSHD_MAIN_CONFIG_FILE,
+                        DEFAULT_SSHD_CONFIG_DIR,
+                        DEFAULT_SSHD_HARDENING_CONFIG_BASENAME,
+                        DEFAULT_SSHD_SYSCONFIG_FILE,
                         DEFAULT_CHRONY_CONF_PATH,
                         DEFAULT_CHRONY_D_PATH,
                         DEFAULT_AUDISP_CONF_PATH,
@@ -107,6 +111,24 @@ def _get_implied_properties(existing_properties):
 
     if "sshd_distributed_config" not in existing_properties:
         result["sshd_distributed_config"] = DEFAULT_SSH_DISTRIBUTED_CONFIG
+
+    if "sshd_runtime_check" not in existing_properties:
+        result["sshd_runtime_check"] = DEFAULT_SSH_RUNTIME_CHECK
+
+    if "sshd_main_config_file" not in existing_properties:
+        result["sshd_main_config_file"] = DEFAULT_SSHD_MAIN_CONFIG_FILE
+
+    if "sshd_config_dir" not in existing_properties:
+        result["sshd_config_dir"] = DEFAULT_SSHD_CONFIG_DIR
+
+    if "sshd_config_base_dir" not in existing_properties:
+        result["sshd_config_base_dir"] = os.path.dirname(result["sshd_main_config_file"])
+
+    if "sshd_hardening_config_basename" not in existing_properties:
+        result["sshd_hardening_config_basename"] = DEFAULT_SSHD_HARDENING_CONFIG_BASENAME
+
+    if "sshd_sysconfig_file" not in existing_properties:
+        result["sshd_sysconfig_file"] = DEFAULT_SSHD_SYSCONFIG_FILE
 
     if "product" not in existing_properties:
         result["product"] = DEFAULT_PRODUCT
@@ -353,7 +375,7 @@ class Product(object):
             self.expand_by_acquired_data(new_symbols)
 
 
-def load_product_yaml(product_yaml_path):
+def load_product_yaml(product_yaml_path: str) -> Product:
     """
     Reads a product data from disk and returns it.
 

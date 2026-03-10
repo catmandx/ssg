@@ -3,14 +3,12 @@ Common functions for processing Contributors in SSG
 """
 
 from __future__ import absolute_import
-from __future__ import print_function
 
 import collections
 import datetime
 import re
 import os.path
-
-from .shims import subprocess_check_output
+import subprocess
 
 
 MANUAL_EDIT_WARNING = """This file is generated using the %s script. DO NOT MANUALLY EDIT!!!!
@@ -29,6 +27,7 @@ ignored_emails = (
     "konflux@no-reply.konflux-ci.dev",
     "126015336+red-hat-konflux[bot]@users.noreply.github.com",
     "49699333+dependabot[bot]@users.noreply.github.com",
+    "190377777+red-hat-konflux-kflux-prd-rh02[bot]@users.noreply.github.com"
 )
 
 
@@ -124,7 +123,7 @@ def generate():
             - contributors_md (str): The contributors list in Markdown format.
             - contributors_xml (str): The contributors list in XML format.
     """
-    output = subprocess_check_output(["git", "shortlog", "-se"]).decode("utf-8")
+    output = subprocess.check_output(["git", "shortlog", "-se"]).decode("utf-8")
     contributions_by_email = _get_contributions_by_canonical_email(output)
     contributors = _get_contributor_email_mapping(contributions_by_email)
 

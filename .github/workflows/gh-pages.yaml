@@ -23,18 +23,20 @@ jobs:
       - name: Install deps python
         run: pip3 install json2html prometheus_client
       - name: Checkout
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+            persist-credentials: false
       - name: Build
         run: cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Debug
         working-directory: ./build
       - name: Build Guides and Mapping Tables
-        run: ninja -j2
+        run: ninja -j$(nproc)
         working-directory: ./build
       - name: Build Statistics
-        run: ninja html-stats html-profile-stats -j2
+        run: ninja html-stats html-profile-stats -j$(nproc)
         working-directory: ./build
       - name: Render Policies (Using control files)
-        run: ninja render-policies -j2
+        run: ninja render-policies -j$(nproc)
         working-directory: ./build
       - name: Generate Prometheus Metrics
         run: utils/controleval_metrics.py prometheus -p fedora ocp4 rhcos4 rhel10 rhel9 rhel8 sle12 sle15 -f ./build/policies_metrics
@@ -50,7 +52,7 @@ jobs:
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - name: Deploy
         if: ${{ github.event_name == 'push' && github.repository == 'ComplianceAsCode/content' && github.ref == 'refs/heads/master'  }}
-        uses: JamesIves/github-pages-deploy-action@6c2d9db40f9296374acc17b90404b6e8864128c8 # v4.7.3
+        uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # v4.8.0
         with:
           branch: main # The branch the action should deploy to.
           folder: ${{ env.PAGES_DIR }} # The folder the action should deploy.
@@ -61,7 +63,7 @@ jobs:
           git-config-name: openscap-ci
           git-config-email: openscap-ci@gmail.com
       - name: Upload artifact if the event is pull request
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v4
         if: ${{ github.event_name == 'pull_request' }}
         with:
           name: built-content

@@ -1,8 +1,7 @@
 from __future__ import absolute_import
-from __future__ import print_function
 import sys
 import os
-
+from typing import Optional
 
 from .constants import (
     OSCAP_RULE, OSCAP_VALUE, oval_namespace, XCCDF12_NS, cce_uri, ocil_cs,
@@ -26,8 +25,8 @@ class FileLinker(object):
     Bass class which represents the linking of checks to their identifiers.
     """
 
-    CHECK_SYSTEM = None
-    CHECK_NAMESPACE = None
+    CHECK_SYSTEM: Optional[str] = None
+    CHECK_NAMESPACE: Optional[str] = None
 
     def __init__(self, translator, xccdftree, checks, output_file_name):
         self.translator = translator
@@ -180,7 +179,7 @@ class OVALFileLinker(FileLinker):
             # (either CCE-XXXX-X, or CCE-XXXXX-X). Drop from XCCDF those who don't follow it
             verify_correct_form_of_referenced_cce_identifiers(self.xccdftree)
         except SSGError as exc:
-            raise SSGError("Error processing {0}: {1}".format(self.fname, str(exc)))
+            raise SSGError("Error processing {0}: {1}".format(self.fname, str(exc))) from exc
 
         self.oval_document = self.translator.translate_oval_document(
             self.oval_document, store_defname=True

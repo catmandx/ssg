@@ -151,10 +151,6 @@ multiple benchmarks in our project:
 <td><p>Firefox</p></td>
 <td><p><code>/products/firefox/guide</code></p></td>
 </tr>
-<tr class="odd">
-<td><p>Chromium</p></td>
-<td><p><code>/products/chromium/guide</code></p></td>
-</tr>
 </tbody>
 </table>
 
@@ -257,9 +253,8 @@ For example:
     ├── kickstart
     ├── overlays
     ├── profiles
-    └── transforms
 
-    4 directories
+    3 directories
 
 #### Product Level Directory Descriptions
 
@@ -284,10 +279,6 @@ For example:
 <tr class="even">
 <td><p><code>profiles</code></p></td>
 <td><p><code>Required</code> Contains profiles that are created and tailored to meet government or commercial compliance standards.</p></td>
-</tr>
-<tr class="odd">
-<td><p><code>transforms</code></p></td>
-<td><p><code>Required</code> Contains XSLT files and scripts that are used to transform the content into the expected compliance document such as XCCDF, OVAL, data stream, etc.</p></td>
 </tr>
 </tbody>
 </table>
@@ -317,8 +308,7 @@ export NEW_PRODUCT=$NAME$VERSION
 export CAPITAL_NAME="CUSTOM"
 mkdir $NEW_PRODUCT \
         $NEW_PRODUCT/overlays \
-        $NEW_PRODUCT/profiles \
-        $NEW_PRODUCT/transforms
+        $NEW_PRODUCT/profiles
 </pre>
 2. Add the product to [CMakeLists.txt](https://github.com/ComplianceAsCode/content/blob/master/CMakeLists.txt) by adding the following lines:
 <pre>
@@ -353,7 +343,6 @@ endif()
 <pre>
 ...
 all_cmake_products=(
-	CHROMIUM
 	DEBIAN11
  <b>CUSTOM6</b>
 	EAP6
@@ -366,14 +355,13 @@ all_cmake_products=(
 product_directories = ['debian11', 'fedora', 'ol7', 'ol8', 'opensuse',
                        'rhel8', 'rhel9', 'sle12',
                        'ubuntu2404', 'rhosp13',
-                       'chromium', 'eap6', 'firefox',
+                       'eap6', 'firefox',
                        'example'<b>, 'custom6'</b>]
 ...
 </pre>
 <pre>
 ...
 FULL_NAME_TO_PRODUCT_MAPPING = {
-    "Chromium": "chromium",
     "Debian 11": "debian11",
     "Custom 6": "custom6",
     "JBoss EAP 6": "eap6",
@@ -400,7 +388,6 @@ MULTI_PLATFORM_MAPPING = {
 <pre>
 ...
 MAKEFILE_ID_TO_PRODUCT_MAP = {
-    'chromium': 'Google Chromium Browser',
     'fedora': 'Fedora',
     'firefox': 'Mozilla Firefox',
     'rhosp': 'Red Hat OpenStack Platform',
@@ -425,7 +412,7 @@ ssg_build_product("$NEW_PRODUCT")
 EOF
 ```
 
-7. Create a new file in the product directory called `product.yml` (note: you may want to change the `pkg_manager` attribute):
+6. Create a new file in the product directory called `product.yml` (note: you may want to change the `pkg_manager` attribute):
 ```
 cat << EOF >  $NEW_PRODUCT/product.yml
 product: $NEW_PRODUCT
@@ -455,7 +442,7 @@ reference_uris:
 EOF
 ```
 
-8. Create a draft profile under `profiles` directory called `standard.profile`:
+7. Create a draft profile under `profiles` directory called `standard.profile`:
 ```
 cat << EOF >  $NEW_PRODUCT/profiles/standard.profile
 documentation_complete: true
@@ -472,84 +459,7 @@ selections:
 EOF
 ```
 
-9. Create a new file under `transforms` directory called `constants.xslt` (you may want to review the links below):
-```
-cat << EOF >  $NEW_PRODUCT/transforms/constants.xslt
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-
-<xsl:include href="../../../shared/transforms/shared_constants.xslt"/>
-
-<xsl:variable name="product_long_name">$FULL_NAME</xsl:variable>
-<xsl:variable name="product_short_name">$FULL_SHORT_NAME</xsl:variable>
-<xsl:variable name="product_stig_id_name">${CAPITAL_NAME}_STIG</xsl:variable>
-<xsl:variable name="prod_type">$NEW_PRODUCT</xsl:variable>
-
-<!-- Define URI of official Center for Internet Security Benchmark for $FULL_NAME -->
-<xsl:variable name="cisuri">https://benchmarks.cisecurity.org/tools2/linux/CIS_${CAMEL_CASE_NAME}_Benchmark_v1.0.pdf</xsl:variable>
-
-<!-- Define URI for custom policy reference which can be used for linking to corporate policy -->
-<!--xsl:variable name="custom-ref-uri">https://www.example.org</xsl:variable-->
-
-</xsl:stylesheet>
-EOF
-```
-
-11. Create a new file under `transforms` directory called `table-style.xslt`:
-```
-cat << EOF >  $NEW_PRODUCT/transforms/table-style.xslt
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-
-<xsl:import href="../../../shared/transforms/shared_table-style.xslt"/>
-
-</xsl:stylesheet>
-EOF
-```
-
-12. Create a new file under `transforms` directory called `xccdf-apply-overlay-stig.xslt`:
-```
-cat << EOF >  $NEW_PRODUCT/transforms/xccdf-apply-overlay-stig.xslt
-<?xml version="1.0"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://checklists.nist.gov/xccdf/1.1" xmlns:xccdf="http://checklists.nist.gov/xccdf/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml" exclude-result-prefixes="xccdf">
-
-<xsl:include href="../../../shared/transforms/shared_xccdf-apply-overlay-stig.xslt"/>
-<xsl:include href="constants.xslt"/>
-<xsl:variable name="overlays" select="document($overlay)/xccdf:overlays" />
-
-</xsl:stylesheet>
-EOF
-```
-
-13. Create a new file under `transforms` directory called `xccdf2table-cce.xslt`:
-```
-cat << EOF >  $NEW_PRODUCT/transforms/xccdf2table-cce.xslt
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:cce="http://cce.mitre.org" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cdf="http://checklists.nist.gov/xccdf/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-
-<xsl:import href="../../../shared/transforms/shared_xccdf2table-cce.xslt"/>
-
-<xsl:include href="constants.xslt"/>
-<xsl:include href="table-style.xslt"/>
-
-</xsl:stylesheet>
-EOF
-```
-
-14. Create a new file under `transforms` directory called `xccdf2table-profileccirefs.xslt`:
-```
-cat << EOF >  $NEW_PRODUCT/transforms/xccdf2table-profileccirefs.xslt
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cdf="http://checklists.nist.gov/xccdf/1.1" xmlns:cci="https://www.cyber.mil/stigs/cci" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:ovalns="http://oval.mitre.org/XMLSchema/oval-definitions-5">
-
-<xsl:import href="../../../shared/transforms/shared_xccdf2table-profileccirefs.xslt"/>
-
-<xsl:include href="constants.xslt"/>
-<xsl:include href="table-style.xslt"/>
-
-</xsl:stylesheet>
-EOF
-```
-
-15. Create a new file under `shared/checks/oval` directory called `installed_OS_is_custom6.xml`:
+8. Create a new file under `shared/checks/oval` directory called `installed_OS_is_custom6.xml`:
 ```
 cat << EOF >  shared/checks/oval/installed_OS_is_$NEW_PRODUCT.xml
 <def-group>
@@ -844,6 +754,8 @@ controls:
        - systemd_target_multi_user
 ```
 
+Control files that apply to multiple products should be stored in `controls` folder in the root of the project.
+If the control file is only applicable to one product it should be store in the `controls` directory under the products folder.
 
 ### Defining levels
 

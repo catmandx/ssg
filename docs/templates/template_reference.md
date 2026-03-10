@@ -57,6 +57,8 @@
 
     -   **key** - audit key. If this isn't specified then the default value `perm_mod` is used.
 
+    -   **syscall_grouping** - a list of syscalls that can be grouped together in a single audit rule
+
 -   Languages: Ansible, Bash, OVAL, Kubernetes
 
 #### audit_rules_file_deletion_events
@@ -66,6 +68,8 @@
 
     -   **name** - value of `-S` argument in Audit rule, eg. `unlink`
 
+    -   **syscall_grouping** - a list of syscalls that can be grouped together in a single audit rule
+
 -   Languages: Ansible, Bash, OVAL
 
 #### audit_rules_kernel_module_loading
@@ -74,6 +78,8 @@
 -   Parameters:
 
     -   **name** - value of `-S` argument in Audit rule, eg. `create_module`
+
+    -   **syscall_grouping** - a list of syscalls that can be grouped together in a single audit rule
 
 -   Languages: Ansible, Bash, Kubernetes, OVAL
 
@@ -133,6 +139,8 @@
 -   Parameters:
 
     -   **name** - name of the unsuccessful system call, eg. `creat`
+
+    -   **syscall_grouping** - a list of syscalls that can be grouped together in a single audit rule
 
 -   Languages: Ansible, Bash, OVAL
 
@@ -244,6 +252,30 @@
         are regexes.
 
 -   Languages: OVAL, Kubernetes
+
+#### crypto_sub_policies
+-   Configures a sub policy for system wide crypto policies. Creates a module
+    file `module_name.pmod` in `/etc/crypto-policies/policies/modules/` that
+    contains `key = value`. Then, it applies this module. The template allows
+    to specify multiple crypto policy sub modules at once, which is convenient
+    for use in benchmarks that require multiple custom crypto settings.
+
+-   Parameters:
+
+    -   **base_policy** - The base system wide crypto policy, eg. `DEFAULT`
+
+    -   **sub_policies** - A list of dictionaries. Each dictionary represents one custom crypto sub policy module. The dictionary has the following members:
+
+        -   **module_name** - crypto sub policy name, eg. `NO-SSHWEAKCIPHERS`
+
+        -   **key** - entry key, eg. `cipher@SSH`
+
+        -   **value** - entry value, eg. `-3DES-CBC`
+
+        Example:
+        `sub_policies = [{"module_name": "NO-SSHCBC", "key": "cipher@SSH", "value": "-*-CBC"}, {"module_name": "NO-WEAKMAC", "key": "mac", "value": "-*-64*"}]`
+
+-   Languages: Ansible, Bash, OVAL
 
 #### dconf_ini_file
 -   Checks for `dconf` configuration. Additionally checks if the

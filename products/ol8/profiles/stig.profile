@@ -1,7 +1,7 @@
 documentation_complete: true
 
 metadata:
-    version: V2R5
+    version: V2R7
 
 reference: https://www.cyber.mil/stigs/downloads/?_dl_facet_stigs=operating-systems%2Cunix-linux
 
@@ -9,7 +9,7 @@ title: 'DISA STIG for Oracle Linux 8'
 
 description: |-
     This profile contains configuration checks that align to the
-    DISA STIG for Oracle Linux 8 V2R5.
+    DISA STIG for Oracle Linux 8 V2R7.
 
 selections:
     ### Variables
@@ -39,7 +39,7 @@ selections:
     - var_password_pam_retry=3
     - var_password_pam_minlen=15
     - sshd_approved_macs=stig_extended
-    - sshd_approved_ciphers=stig_extended
+    - sshd_approved_ciphers=stig_ol8
     - sshd_idle_timeout_value=10_minutes
     - var_accounts_authorized_local_users_regex=ol8
     - var_accounts_passwords_pam_faillock_deny=3
@@ -61,10 +61,14 @@ selections:
     - var_auditd_disk_full_action=ol8
     - var_sssd_certificate_verification_digest_function=sha1
     - login_banner_text=dod_banners
+    - login_banner_contents=dod_default
+    - dconf_login_banner_text=dod_banners
+    - dconf_login_banner_contents=dod_default
     - var_authselect_profile=sssd
     - var_multiple_time_servers=stig
 
     ### Enable / Configure FIPS
+    # OL08-00-010293, OL08-00-010020
     - enable_fips_mode
     - var_system_crypto_policy=fips
     - configure_crypto_policy
@@ -72,6 +76,7 @@ selections:
     - configure_libreswan_crypto_policy
     - configure_kerberos_crypto_policy
     - enable_dracut_fips_module
+    - sysctl_crypto_fips_enabled
 
     # Other needed rules
     - enable_authselect
@@ -85,9 +90,6 @@ selections:
 
     # OL08-00-010019
     - ensure_oracle_gpgkey_installed
-
-    # OL08-00-010020
-    - sysctl_crypto_fips_enabled
 
     # OL08-00-010030
     - encrypt_partitions
@@ -202,9 +204,6 @@ selections:
 
     # OL08-00-010292
     - sshd_use_strong_rng
-
-    # OL08-00-010293
-    - configure_openssl_crypto_policy
 
     # OL08-00-010294
     - configure_openssl_tls_crypto_policy
@@ -412,9 +411,6 @@ selections:
     # OL08-00-010650
     - mount_option_nosuid_remote_filesystems
 
-    # OL08-00-010660
-    - accounts_user_dot_no_world_writable_programs
-
     # OL08-00-010670
     - service_kdump_disabled
 
@@ -468,6 +464,7 @@ selections:
 
     # OL08-00-010770
     - file_permission_user_init_files_root
+    - rootfiles_configured
 
     # OL08-00-010780
     - no_files_unowned_by_user
@@ -535,7 +532,11 @@ selections:
 
     # OL08-00-020035
     - logind_session_timeout
-    - var_logind_session_timeout=15_minutes
+    - var_logind_session_timeout=10_minutes
+
+    # OL08-00-020040
+    - accounts_tmout
+    - var_accounts_tmout=10_min
 
     # OL08-00-020043
     - vlock_installed
@@ -545,6 +546,7 @@ selections:
 
     # OL08-00-020060
     - dconf_gnome_screensaver_idle_delay
+    - inactivity_timeout_value=10_minutes
 
     # OL08-00-020080
     - dconf_gnome_screensaver_user_locks
@@ -653,9 +655,6 @@ selections:
 
     # OL08-00-020331, OL08-00-020332
     - no_empty_passwords
-
-    # OL08-00-020340
-    - display_login_attempts
 
     # OL08-00-020350
     - sshd_print_last_log
@@ -885,6 +884,7 @@ selections:
 
     # OL08-00-030602
     - grub2_audit_backlog_limit_argument
+    - var_audit_backlog_limit=8192
 
     # OL08-00-030603
     - configure_usbguard_auditbackend
@@ -964,7 +964,7 @@ selections:
     - grub2_pti_argument
 
     # OL08-00-040010
-    - package_rsh-server_removed
+    - ensure_epel_repos_disabled
 
     # OL08-00-040020
     - kernel_module_uvcvideo_disabled
@@ -1161,7 +1161,7 @@ selections:
     - sysctl_kernel_kptr_restrict
 
     # OL08-00-040284
-    - sysctl_user_max_user_namespaces
+    - sysctl_user_max_user_namespaces_no_remediation
 
     # OL08-00-040285
     - sysctl_net_ipv4_conf_all_rp_filter

@@ -17,3 +17,10 @@ description: |-
 
 selections:
     - base_sle16:all
+    - package_libselinux_installed
+    - no_shelllogin_for_systemaccounts
+    - grub2_spectre_v2_argument
+    - grub2_nosmep_argument_absent
+    - grub2_audit_argument
+    - directory_access_var_log_audit
+    - logind_session_timeout

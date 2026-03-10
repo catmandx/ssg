@@ -164,7 +164,7 @@ value: :code:`Setting={{ varname1 }}`
 {{%- set line_regex = prefix_regex + "{{ \"" + parameter + "\"| regex_escape }}" + separator_regex -%}}
 {{%- set find_when = dir_exists + ".stat.isdir is defined and " + dir_exists + ".stat.isdir" -%}}
 {{%- set lineinfile_items = "{{ " + dir_parameter + ".files }}" -%}}
-{{%- set lineinfile_when = dir_parameter + ".matched" -%}}
+{{%- set lineinfile_when = dir_parameter + ".matched > 0" -%}}
 {{%- set new_line = parameter + separator + value -%}}
 - name: {{{ rule_title }}} - Check if the parameter {{{ parameter }}} is configured
   ansible.builtin.find:
@@ -198,7 +198,7 @@ value: :code:`Setting={{ varname1 }}`
   (but case-sensitive values). We also specify the validation program here;
   -t specifies test and -f allows Ansible to pass a file at a different path.
 
-  Set set a parameter in /etc/sshd_config or /etc/ssh/sshd_config.d/
+  Set a parameter in ``sshd_main_config_file`` or ``sshd_config_dir``.
 
 :parameter msg: Message to be set as Task Title, if not set the rule's title will be used instead
 :type msg: str
@@ -206,17 +206,20 @@ value: :code:`Setting={{ varname1 }}`
 :type parameter: str
 :parameter value: The value to set
 :type value: str
-:parameter config_is_distributed: If true, will ok look in /etc/ssh/sshd_config.d
+:parameter config_is_distributed: If true, use ``sshd_config_dir`` for configuration
 :type config_is_distributed: str
 :parameter config_basename: Filename of configuration file when using distributed configuration
 :type config_basename: str
 
 #}}
-{{%- macro ansible_sshd_set(msg='', parameter='', value='', config_is_distributed="false", config_basename="00-complianceascode-hardening.conf", rule_title=None) %}}
+{{%- macro ansible_sshd_set(msg='', parameter='', value='', config_is_distributed="false", config_basename="", rule_title=None) %}}
+{{%- set sshd_main_config = sshd_main_config_file -%}}
+{{%- set sshd_drop_in_dir = sshd_config_dir -%}}
+{{%- set sshd_base_dir = sshd_config_base_dir -%}}
 {{% if product in ["ol8", "ol9"] %}}
 - name: "Find sshd_config included files"
   ansible.builtin.shell: |-
-    included_files=$(grep -oP "^\s*(?i)include.*" /etc/ssh/sshd_config | sed -e 's/\s*Include\s*//i' | sed -e 's|^[^/]|/etc/ssh/&|')
+    included_files=$(grep -oP "^\s*(?i)include.*" {{{ sshd_main_config }}} | sed -e 's/\s*Include\s*//i' | sed -e 's|^[^/]|{{{ sshd_base_dir }}}/&|')
     [[ -n $included_files ]] && ls $included_files || true
   register: sshd_config_included_files
 
@@ -229,9 +232,10 @@ value: :code:`Setting={{ varname1 }}`
 
 {{% endif %}}
 {{%- if config_is_distributed == "true" %}}
-{{% set config_dir = "/etc/ssh/sshd_config.d" %}}
-{{% set config_file = "/etc/ssh/sshd_config.d" ~ "/" ~ config_basename %}}
-{{{ ansible_set_config_file_dir(msg, config_file="/etc/ssh/sshd_config", config_dir=config_dir, set_file=config_file, parameter=parameter, separator_regex="\s+", value=value, prefix_regex="(?i)^\s*", create='yes', validate='/usr/sbin/sshd -t -f %s', insert_after='', insert_before="BOF", rule_title=rule_title) }}}
+{{% set hardening_config_basename = config_basename or sshd_hardening_config_basename %}}
+{{% set config_dir = sshd_drop_in_dir %}}
+{{% set config_file = sshd_drop_in_dir ~ "/" ~ hardening_config_basename %}}
+{{{ ansible_set_config_file_dir(msg, config_file=sshd_main_config, config_dir=config_dir, set_file=config_file, parameter=parameter, separator_regex="\s+", value=value, prefix_regex="(?i)^\s*", create='yes', validate='/usr/sbin/sshd -t -f %s', insert_after='', insert_before="BOF", rule_title=rule_title) }}}
 - name: {{{ rule_title }}} - set file mode for {{{ config_file }}}
   ansible.builtin.file:
     path: {{{ config_file }}}
@@ -240,7 +244,7 @@ value: :code:`Setting={{ varname1 }}`
     modification_time: preserve
     access_time: preserve
 {{%- else %}}
-{{{ ansible_set_config_file(msg, "/etc/ssh/sshd_config", parameter, value=value, create="yes", prefix_regex='(?i)^\s*', validate="/usr/sbin/sshd -t -f %s", insert_before="BOF", rule_title=rule_title) }}}
+{{{ ansible_set_config_file(msg, sshd_main_config, parameter, value=value, create="yes", prefix_regex='(?i)^\s*', validate="/usr/sbin/sshd -t -f %s", insert_before="BOF", rule_title=rule_title) }}}
 {{%- endif %}}
 {{%- endmacro %}}
 
@@ -274,6 +278,9 @@ value: :code:`Setting={{ varname1 }}`
   ansible.builtin.file:
     path: {{{ config_file }}}
     mode: '0600'
+    state: touch
+    modification_time: preserve
+    access_time: preserve
 {{%- else %}}
 {{{ ansible_set_config_file(msg, "/etc/ssh/ssh_config", parameter, value=value, create="yes", prefix_regex='(?i)^\s*', validate="", insert_before="BOF", rule_title=rule_title) }}}
 {{%- endif %}}
@@ -914,6 +921,21 @@ The following macro remediates Audit syscall rule in :code:`/etc/audit/audit.rul
 {{%- endmacro %}}
 
 {{#
+    Macro used to force reselect the current authselect profile. This is equivalent to running
+    'authselect select $(authselect current --raw) --force' which reapplies the current profile
+    with the --force option.
+
+:param rule_title:        The title of the rule using this macro.
+:type rule_title: str
+
+#}}
+{{% macro ansible_authselect_force_reselect(rule_title=None) -%}}
+- name: '{{{ rule_title }}} - Force reselect authselect profile'
+  ansible.builtin.shell:
+    cmd: authselect select "$(authselect current --raw)" --force
+{{%- endmacro %}}
+
+{{#
     Macro used to apply changes on pam-auth-update profiles. If the "profile_name" parameter is not defined, the
     pam-auth-update will apply all profile changes by default.
 
@@ -1163,16 +1185,16 @@ The following macro remediates Audit syscall rule in :code:`/etc/audit/audit.rul
 
 #}}
 {{%- macro ansible_pam_pwhistory_parameter_value(pam_file, parameter, pwhistory_var_name='', rule_title=None, rule_id=None) -%}}
-- name: '{{{ rule_title }}} - Check the presence of /etc/security/pwhistory.conf file'
+- name: '{{{ rule_title }}} - Check the presence of {{{ pwhistory_path }}} file'
   ansible.builtin.stat:
-    path: /etc/security/pwhistory.conf
+    path: {{{ pwhistory_path }}}
   register: result_pwhistory_conf_check
 
-- name: '{{{ rule_title }}} - pam_pwhistory.so parameters are configured in /etc/security/pwhistory.conf file'
+- name: '{{{ rule_title }}} - pam_pwhistory.so parameters are configured in {{{ pwhistory_path }}} file'
   block:
-    - name: '{{{ rule_title }}} - Ensure the pam_pwhistory.so {{{ parameter }}} parameter in /etc/security/pwhistory.conf'
+    - name: '{{{ rule_title }}} - Ensure the pam_pwhistory.so {{{ parameter }}} parameter in {{{ pwhistory_path }}}'
       ansible.builtin.lineinfile:
-        path: /etc/security/pwhistory.conf
+        path: {{{ pwhistory_path }}}
         {{%- if pwhistory_var_name == '' %}}
         regexp: ^\s*{{{ parameter }}}
         line: {{{ parameter }}}
@@ -1218,6 +1240,79 @@ The following macro remediates Audit syscall rule in :code:`/etc/audit/audit.rul
 
 - name: {{{ rule_title }}} - Remediation where authselect tool is not present
   block:
+{{% if  product in ['sle15', 'sle16'] %}}
+    - name: {{{ rule_title }}} - Check if pam_faillock.so preauth is already enabled in /etc/pam.d/common-auth
+      ansible.builtin.lineinfile:
+        path: /etc/pam.d/common-auth
+        regexp: ^auth.*pam_faillock\.so.*preauth
+        state: absent
+      check_mode: yes
+      changed_when: false
+      register: result_pam_faillock_is_enabled
+
+    - name: {{{ rule_title }}} - Enable pam_faillock.so preauth in /etc/pam.d/common-auth
+      ansible.builtin.lineinfile:
+        path: /etc/pam.d/common-auth
+        line: auth     required      pam_faillock.so preauth
+        insertbefore: ^auth.*pam_unix\.so.*
+        state: present
+      when:
+        - result_pam_faillock_is_enabled.found == 0
+
+    - name: {{{ rule_title }}} - Check if pam_faillock.so authfail is already enabled in /etc/pam.d/common-auth
+      ansible.builtin.lineinfile:
+        path: /etc/pam.d/common-auth
+        regexp: ^auth.*pam_faillock\.so.*authfail
+        state: absent
+      check_mode: yes
+      changed_when: false
+      register: result_pam_faillock_authfail_is_enabled
+
+    - name: {{{ rule_title }}} - Enable pam_faillock.so authfail in /etc/pam.d/common-auth
+      ansible.builtin.lineinfile:
+        path: /etc/pam.d/common-auth
+        line: auth     [default=die]      pam_faillock.so authfail
+        insertafter: ^auth.*pam_unix\.so.*
+        state: present
+      when:
+        - result_pam_faillock_authfail_is_enabled.found == 0
+
+    - name: {{{ rule_title }}} - Check if pam_faillock.so authsucc is already enabled in /etc/pam.d/common-auth
+      ansible.builtin.lineinfile:
+        path: /etc/pam.d/common-auth
+        regexp: ^auth.*sufficient.*pam_faillock\.so.*authsucc
+        state: absent
+      check_mode: yes
+      changed_when: false
+      register: result_pam_faillock_authsucc_is_enabled
+
+    - name: {{{ rule_title }}} - Enable pam_faillock.so authsucc in /etc/pam.d/common-auth
+      ansible.builtin.lineinfile:
+        path: /etc/pam.d/common-auth
+        line: auth     sufficient      pam_faillock.so authsucc
+        insertafter: ^auth.*pam_faillock\.so.*authfail.*
+        state: present
+      when:
+        - result_pam_faillock_authsucc_is_enabled.found == 0
+
+    - name: {{{ rule_title }}} - Check if pam_faillock.so is already enabled in /etc/pam.d/common-account
+      ansible.builtin.lineinfile:
+        path: /etc/pam.d/common-account
+        regexp: ^account.*pam_faillock\.so
+        state: absent
+      check_mode: yes
+      changed_when: false
+      register: result_pam_faillock_acount_is_enabled
+
+    - name: {{{ rule_title }}} - Enable pam_faillock.so account in /etc/pam.d/common-account
+      ansible.builtin.lineinfile:
+        path: /etc/pam.d/common-account
+        line: account     required      pam_faillock.so
+        insertbefore: ^account.*required.*pam_unix\.so.*
+        state: present
+      when:
+        - result_pam_faillock_acount_is_enabled.found == 0
+{{% else %}}
     - name: {{{ rule_title }}} - Check if pam_faillock.so is already enabled
       ansible.builtin.lineinfile:
         path: /etc/pam.d/system-auth
@@ -1264,7 +1359,7 @@ The following macro remediates Audit syscall rule in :code:`/etc/audit/audit.rul
         - result_pam_faillock_is_enabled.found == 0
   when:
     - not result_authselect_present.stat.exists
-
+{{% endif %}}
 {{% else %}}
 {{{ ansible_check_pam_auth_update_presence(rule_title=rule_title) }}}
 
@@ -1324,7 +1419,7 @@ The following macro remediates Audit syscall rule in :code:`/etc/audit/audit.rul
 
 {{#
   This macro make sure the informed parameter from pam_faillock.so PAM module is properly set. In
-  case the file /etc/security/faillock.conf is present in the system, the option is removed from
+  case the file "{{{ pam_faillock_conf_path }}}" is present in the system, the option is removed from
   PAM files since it is not needed there in that case.
 
 :param parameter: The pam_faillock.so parameter name.
@@ -1341,14 +1436,14 @@ The following macro remediates Audit syscall rule in :code:`/etc/audit/audit.rul
 {{{ ansible_instantiate_variables( faillock_var_name ) }}}
 {{%- endif %}}
 
-- name: {{{ rule_title }}} - Check the presence of /etc/security/faillock.conf file
+- name: {{{ rule_title }}} - Check the presence of {{{ pam_faillock_conf_path }}} file
   ansible.builtin.stat:
-    path: /etc/security/faillock.conf
+    path: {{{ pam_faillock_conf_path }}}
   register: result_faillock_conf_check
 
-- name: {{{ rule_title }}} - Ensure the pam_faillock.so {{{ parameter }}} parameter in /etc/security/faillock.conf
+- name: {{{ rule_title }}} - Ensure the pam_faillock.so {{{ parameter }}} parameter in {{{ pam_faillock_conf_path }}}
   ansible.builtin.lineinfile:
-    path: /etc/security/faillock.conf
+    path: {{{ pam_faillock_conf_path }}}
     {{%- if faillock_var_name == '' %}}
     regexp: ^\s*{{{ parameter }}}
     line: {{{ parameter }}}
@@ -1360,12 +1455,14 @@ The following macro remediates Audit syscall rule in :code:`/etc/audit/audit.rul
   when:
     - result_faillock_conf_check.stat.exists
 
+{{% if product not in ['sle15', 'sle16'] %}}
 - name: {{{ rule_title }}} - Ensure the pam_faillock.so {{{ parameter }}} parameter not in PAM files
   block:
     {{{ ansible_remove_pam_module_option_configuration('/etc/pam.d/system-auth','auth','','pam_faillock.so',parameter, rule_title=rule_title) | indent(4) }}}
     {{{ ansible_remove_pam_module_option_configuration('/etc/pam.d/password-auth','auth','','pam_faillock.so',parameter, rule_title=rule_title) | indent(4) }}}
   when:
     - result_faillock_conf_check.stat.exists
+{{%- endif %}}
 
 - name: {{{ rule_title }}} - Ensure the pam_faillock.so {{{ parameter }}} parameter in PAM files
   block:
@@ -1501,7 +1598,7 @@ Part of the grub2_bootloader_argument template.
 
 #}}
 {{%- macro ansible_grub2_bootloader_argument(arg_name, arg_name_value, arg_variable) -%}}
-{{% if 'ubuntu' in product or 'debian' in product or product in ['ol7', 'sle12', 'sle15', 'slmicro5'] %}}
+{{% if 'ubuntu' in product or 'debian' in product or product in ['ol7', 'sle12', 'sle15', 'sle16', 'slmicro5'] %}}
 - name: Check {{{ arg_name }}} argument exists
   ansible.builtin.command: grep '^\s*GRUB_CMDLINE_LINUX=.*{{{ arg_name }}}=' /etc/default/grub
   check_mode: False
@@ -1541,7 +1638,7 @@ Part of the grub2_bootloader_argument template.
 
 {{% endif -%}}
 
-{{% if product in ['sle12', 'sle15', 'slmicro5'] %}}
+{{% if product in ['sle12', 'sle15', 'sle16', 'slmicro5'] %}}
 - name: Update grub defaults and the bootloader menu
   ansible.builtin.command: /usr/sbin/grub2-mkconfig -o {{{ grub2_boot_path }}}/grub.cfg
 {{% elif 'debian' in product %}}
@@ -1580,9 +1677,9 @@ Part of the grub2_bootloader_argument_absent template.
 
 #}}
 {{%- macro ansible_grub2_bootloader_argument_absent(arg_name) -%}}
-{{% if 'ubuntu' in product or 'debian' in product or product in ['ol7', 'sle12', 'sle15'] %}}
+{{% if 'ubuntu' in product or 'debian' in product or product in ['ol7', 'sle12', 'sle15', 'sle16'] %}}
 - name: Check {{{ arg_name }}} argument exists
-  ansible.builtin.command: grep '^GRUB_CMDLINE_LINUX=.*{{{ arg_name }}}=.*"' /etc/default/grub
+  ansible.builtin.command: grep -E '^GRUB_CMDLINE_LINUX=.*{{{ arg_name }}}=?.*"' /etc/default/grub
   check_mode: False
   failed_when: False
   changed_when: False
@@ -1591,13 +1688,13 @@ Part of the grub2_bootloader_argument_absent template.
 - name: Replace existing {{{ arg_name }}} argument
   ansible.builtin.replace:
       path: /etc/default/grub
-      regexp: '\(^GRUB_CMDLINE_LINUX=".*\){{{ arg_name }}}=?[^[:space:]]*\(.*"\)'
-      replace: '\1 \2'
+      regexp: (^GRUB_CMDLINE_LINUX=\".*){{{ arg_name }}}(\s|=[0-9a-zA-Z]+)?(.*\")
+      replace: '\1 \3'
   when: argcheck is not skipped and argcheck.rc == 0
 
 {{% endif -%}}
 
-{{% if product in ['sle12', 'sle15'] %}}
+{{% if product in ['sle12', 'sle15', 'sle16'] %}}
 - name: Update grub defaults and the bootloader menu
   ansible.builtin.command: /usr/sbin/grub2-mkconfig -o {{{ grub2_boot_path }}}/grub.cfg
 {{% elif 'debian' in product %}}
@@ -1836,7 +1933,13 @@ Part of the grub2_bootloader_argument_absent template.
 - name: '{{{ rule_title }}} - Check if {{{ pam_file }}} file is present'
   ansible.builtin.stat:
     path: "{{{ pam_file }}}"
+  {{%- if pam_file == "/etc/pam.d/password-auth" %}}
+  register: result_pam_password_auth_file_present
+  {{%- elif pam_file in ["/etc/pam.d/common-password", "/etc/pam.d/system-auth"] %}}
+  register: result_pam_auth_file_present
+  {{%- else %}}
   register: result_pam_file_present
+  {{%- endif %}}
 
 - name: '{{{ rule_title }}} - Ensure the "{{{ option }}}" option from "{{{ module }}}" is not present in {{{ pam_file }}}'
   ansible.builtin.replace:
@@ -1848,7 +1951,14 @@ Part of the grub2_bootloader_argument_absent template.
     {{%- endif %}}
     replace: '\1\2'
   register: result_pam_option_removal
-  when: result_pam_file_present.stat.exists
+  when:
+  {{%- if pam_file == "/etc/pam.d/password-auth" %}}
+    - result_pam_password_auth_file_present.stat.exists
+  {{%- elif pam_file in ["/etc/pam.d/common-password", "/etc/pam.d/system-auth"] %}}
+    - result_pam_auth_file_present.stat.exists
+  {{%- else %}}
+    - result_pam_file_present.stat.exists
+  {{%- endif %}}
 {{%- endmacro -%}}
 
 
@@ -2016,7 +2126,13 @@ Part of the grub2_bootloader_argument_absent template.
 - name: '{{{ rule_title }}} - Check if {{{ pam_file }}} file is present'
   ansible.builtin.stat:
     path: {{{ pam_file }}}
+  {{%- if pam_file == "/etc/pam.d/password-auth" %}}
+  register: result_pam_password_auth_file_present
+  {{%- elif pam_file in ["/etc/pam.d/common-password", "/etc/pam.d/system-auth"] %}}
+  register: result_pam_auth_file_present
+  {{%- else %}}
   register: result_pam_file_present
+  {{%- endif %}}
 
 - name: '{{{ rule_title }}} - Check the proper remediation for the system'
   block:
@@ -2035,7 +2151,13 @@ Part of the grub2_bootloader_argument_absent template.
           (result_pam_{{{ rule_id }}}_add is defined and result_pam_{{{ rule_id }}}_add.changed)
            or (result_pam_{{{ rule_id }}}_edit is defined and result_pam_{{{ rule_id }}}_edit.changed)
   when:
+  {{%- if pam_file == "/etc/pam.d/password-auth" %}}
+    - result_pam_password_auth_file_present.stat.exists
+  {{%- elif pam_file in ["/etc/pam.d/common-password", "/etc/pam.d/system-auth"] %}}
+    - result_pam_auth_file_present.stat.exists
+  {{%- else %}}
     - result_pam_file_present.stat.exists
+  {{%- endif %}}
 {{%- endmacro -%}}
 
 
@@ -2060,7 +2182,13 @@ Part of the grub2_bootloader_argument_absent template.
 - name: '{{{ rule_title }}} - Check if {{{ pam_file }}} file is present'
   ansible.builtin.stat:
     path: {{{ pam_file }}}
+  {{%- if pam_file == "/etc/pam.d/password-auth" %}}
+  register: result_pam_password_auth_file_present
+  {{%- elif pam_file in ["/etc/pam.d/common-password", "/etc/pam.d/system-auth"] %}}
+  register: result_pam_auth_file_present
+  {{%- else %}}
   register: result_pam_file_present
+  {{%- endif %}}
 
 - name: '{{{ rule_title }}} - Check the proper remediation for the system'
   block:
@@ -2073,7 +2201,13 @@ Part of the grub2_bootloader_argument_absent template.
         - result_authselect_present.stat.exists
         - result_pam_option_removal is changed
   when:
+  {{%- if pam_file == "/etc/pam.d/password-auth" %}}
+    - result_pam_password_auth_file_present.stat.exists
+  {{%- elif pam_file in ["/etc/pam.d/common-password", "/etc/pam.d/system-auth"] %}}
+    - result_pam_auth_file_present.stat.exists
+  {{%- else %}}
     - result_pam_file_present.stat.exists
+  {{%- endif %}}
 {{%- endmacro -%}}
 
 
@@ -2150,4 +2284,110 @@ Part of the grub2_bootloader_argument_absent template.
   loop: '{{ ansible_mounts }}'
   when:
     - item.device is search("localhost:")
+{{%- endmacro -%}}
+
+
+{{#
+  Macro to ensure rsyslog common setup (rsyslog.conf exists and rsyslog.d directory exists).
+  This is equivalent to the setup_rsyslog_common() bash macro.
+
+  :parameter rule_title: The title of the rule for task naming
+  :type rule_title: str
+#}}
+{{%- macro ansible_setup_rsyslog_common(rule_title) -%}}
+-   name: "{{{ rule_title }}} - Ensure /etc/rsyslog.conf exists"
+    ansible.builtin.file:
+        path: /etc/rsyslog.conf
+        state: touch
+        modification_time: preserve
+        access_time: preserve
+
+-   name: "{{{ rule_title }}} - Ensure /etc/rsyslog.d directory exists"
+    ansible.builtin.file:
+        path: /etc/rsyslog.d
+        state: directory
+{{%- endmacro -%}}
+
+
+{{#
+  Generic macro to remove RainerScript block entries (action/global/etc) containing a specific pattern.
+  This removes multilined and onelined RainerScript blocks that contain
+  the specified pattern from both rsyslog.conf and rsyslog.d/*.conf files.
+
+  :parameter rule_title: The title of the rule for task naming
+  :type rule_title: str
+  :parameter block_type: The RainerScript block type (e.g., "action", "global")
+  :type block_type: str
+  :parameter pattern: The pattern to search for within blocks (e.g., "StreamDriverMode")
+  :type pattern: str
+#}}
+{{%- macro ansible_remove_rainerscript_block_entries(rule_title, block_type, pattern) -%}}
+-   name: "{{{ rule_title }}} - Remove RainerScript {{{ block_type }}}() entries with {{{ pattern }}} from rsyslog.conf"
+    ansible.builtin.shell: |
+      sed -i '/^[[:space:]]*{{{ block_type }}}(/ { :a; N; /)/!ba; /{{{ pattern }}}/d }' /etc/rsyslog.conf
+    changed_when: true
+
+-   name: "{{{ rule_title }}} - Remove RainerScript {{{ block_type }}}() entries with {{{ pattern }}} from rsyslog.d/*.conf"
+    ansible.builtin.shell: |
+      find /etc/rsyslog.d -type f -name "*.conf" -exec sed -i '/^[[:space:]]*{{{ block_type }}}(/ { :a; N; /)/!ba; /{{{ pattern }}}/d }' {} +
+    changed_when: true
+{{%- endmacro -%}}
+
+
+{{#
+  Macro to remove multilined RainerScript entries using range deletion.
+  This removes entries from a line matching start_pattern to the next line matching end_pattern.
+  Used for cleanup patterns like cron.* action(...) entries.
+
+  :parameter rule_title: The title of the rule for task naming
+  :type rule_title: str
+  :parameter start_pattern: The pattern that marks the start of the range to delete (e.g., "cron\.\*.*action(")
+  :type start_pattern: str
+  :parameter end_pattern: The pattern that marks the end of the range (e.g., ")")
+  :type end_pattern: str
+  :parameter description: Description of what is being removed (e.g., "cron.* action()")
+  :type description: str
+#}}
+{{%- macro ansible_remove_rainerscript_range_entries(rule_title, start_pattern, end_pattern, description) -%}}
+-   name: "{{{ rule_title }}} - Remove multilined {{{ description }}} entries from rsyslog.conf"
+    ansible.builtin.shell: sed -i '/^{{{ start_pattern }}}/,/{{{ end_pattern }}}/d' /etc/rsyslog.conf
+    changed_when: true
+
+-   name: "{{{ rule_title }}} - Remove multilined {{{ description }}} entries from rsyslog.d/*.conf"
+    ansible.builtin.shell: find /etc/rsyslog.d -type f -name "*.conf" -exec sed -i '/^{{{ start_pattern }}}/,/{{{ end_pattern }}}/d' {} +
+    changed_when: true
+{{%- endmacro -%}}
+
+{{#
+Macro for enabling dconf user profile in /etc/dconf/profile/<PROFILE>
+
+The macro adds the following lines to the profile:
+---
+user-db:user
+system-db:<DATABASE>
+---
+If the profile exists but does not contain the above lines, the
+lines will be inserted at the beginning of the profile.
+
+:param profile: name of dconf profile (e.g. user, gdm)
+:type profile: str
+:param database: name of dconf database (e.g. local, gdm)
+:type database: str
+#}}
+{{% macro ansible_enable_dconf_user_profile(profile, database) -%}}
+
+- name: "Configure GNOME3 DConf User Profile"
+  ansible.builtin.lineinfile:
+    path: "/etc/dconf/profile/{{{ profile }}}"
+    line: "{{ item }}"
+    create: yes
+    state: present
+  loop:
+    - "user-db:user"
+    - "system-db:{{{ database }}}"
+  register: dconf_user_profile_blockinfile
+
+- name: Dconf Update
+  ansible.builtin.command: dconf update
+  when: dconf_user_profile_blockinfile is changed
 {{%- endmacro -%}}

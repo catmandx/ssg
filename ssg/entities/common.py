@@ -1,17 +1,16 @@
 from __future__ import absolute_import
-from __future__ import print_function
 
 import json
 import os
 import yaml
 from collections import defaultdict
 from copy import deepcopy
+from typing import Set, Dict, Callable, Any, Optional
 
 from ssg.yaml import yaml_Dumper
 
 from ..xml import ElementTree as ET, add_xhtml_namespace
 from ..yaml import DocumentationNotComplete, open_and_expand
-from ..shims import unicode_func
 
 from ..constants import (
     xhtml_namespace,
@@ -112,7 +111,7 @@ def add_sub_element(parent, tag, ns, data):
     # and therefore it does not add child elements
     # we need to do a hack instead
     # TODO: Remove this function after we move to Markdown everywhere in SSG
-    ustr = unicode_func('<{0} xmlns="{3}" xmlns:xhtml="{2}">{1}</{0}>').format(
+    ustr = str('<{0} xmlns="{3}" xmlns:xhtml="{2}">{1}</{0}>').format(
         tag, namespaced_data, xhtml_namespace, ns)
 
     try:
@@ -120,7 +119,7 @@ def add_sub_element(parent, tag, ns, data):
     except Exception:
         msg = ("Error adding subelement to an element '{0}' from string: '{1}'"
                .format(parent.tag, ustr))
-        raise RuntimeError(msg)
+        raise RuntimeError(msg) from None
 
     # Apart from HTML and XML elements the rule descriptions and similar
     # also contain <xccdf:sub> elements, where we need to add the prefix
@@ -156,15 +155,15 @@ class XCCDFEntity(object):
     when entities are defined in the benchmark tree,
     and they are compiled into flat YAMLs to the build directory.
     """
-    KEYS = dict(
+    KEYS: Dict[str, Callable[[], Optional[Any]]] = dict(
             id_=lambda: "",
             title=lambda: "",
             definition_location=lambda: "",
     )
 
-    MANDATORY_KEYS = set()
+    MANDATORY_KEYS: Set[str] = set()
 
-    ALTERNATIVE_KEYS = dict()
+    ALTERNATIVE_KEYS: Dict[str, str] = {}
 
     GENERIC_FILENAME = ""
     ID_LABEL = "id"
@@ -255,7 +254,7 @@ class XCCDFEntity(object):
             msg = (
                 "Error processing {yaml_file}: {exc}"
                 .format(yaml_file=yaml_file, exc=str(exc)))
-            raise ValueError(msg)
+            raise ValueError(msg) from exc
 
         if yaml_data:
             msg = (
@@ -297,7 +296,7 @@ class XCCDFEntity(object):
             msg = (
                 "Error loading a {class_name} from {filename}: {error}"
                 .format(class_name=cls.__name__, filename=yaml_file, error=str(exc)))
-            raise RuntimeError(msg)
+            raise RuntimeError(msg) from exc
 
         result = cls.get_instance_from_full_dict(data_dict)
 
@@ -313,7 +312,7 @@ class XCCDFEntity(object):
             msg = (
                 "Error loading a {class_name} from {filename}: {error}"
                 .format(class_name=cls.__name__, filename=json_file_path, error=str(exc)))
-            raise RuntimeError(msg)
+            raise RuntimeError(msg) from exc
 
         result = cls.get_instance_from_full_dict(data_dict)
 
@@ -466,7 +465,7 @@ class Templatable(object):
             return self.template["name"]
         except KeyError:
             raise ValueError(
-                "Templatable {0} is missing template name under template key".format(self))
+                "Templatable {0} is missing template name under template key".format(self)) from None
 
     def get_template_context(self, env_yaml):
         # TODO: The first two variables, 'rule_id' and 'rule_title' are expected by some

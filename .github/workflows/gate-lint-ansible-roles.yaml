@@ -15,12 +15,12 @@ jobs:
       - name: Install Deps
         run: dnf install -y cmake make ninja-build openscap-utils python3-pyyaml python3-setuptools python3-jinja2 python3-pygithub ansible ansible-lint libxslt git python3-setuptools
       - name: Checkout
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v4
       - name: Configure
         run: cmake -DSSG_PRODUCT_RHEL8=ON -DSSG_PRODUCT_RHEL9=ON -DSSG_PRODUCT_RHEL10=ON -G Ninja ..
         working-directory: ./build
       - name: Build
-        run: ninja -j2 rhel10-profile-playbooks  rhel9-profile-playbooks rhel8-profile-playbooks
+        run: ninja -j$(nproc) rhel10-profile-playbooks rhel9-profile-playbooks rhel8-profile-playbooks
         working-directory: ./build
       - name: Build Ansible Roles
         run: PYTHONPATH=. python3 utils/ansible_playbook_to_role.py --build-playbooks-dir ./build/ansible/ --dry-run ./build/ansible_roles

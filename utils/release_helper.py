@@ -242,10 +242,10 @@ def create_repo_milestone(repo, name) -> None:
             f'Stabilization phase starts on {formatted_date_stabilization}')
         try:
             repo.create_milestone(
-                title=name, description=milestone_description, due_on=estimated_release_date)
+                title=name, description=milestone_description, due_on=future_release_date)
             print(f'Milestone {name} successfully created with the following information:')
             print(f'Description: {milestone_description}')
-            print(f'Due on: {estimated_release_date}')
+            print(f'Due on: {future_release_date}')
         except Exception as e:
             print(f'Error: {e}')
             exit(1)
@@ -353,9 +353,10 @@ def get_next_stabilization_date(release_date: datetime) -> datetime:
 
 def get_next_release_date(latest_release_date: datetime) -> datetime:
     month = get_next_quarter_second_month(latest_release_date)
-    now = datetime.now(UTC)
 
-    if month > 9 and latest_release_date <= now:
+    # If the next release month is earlier in the year than the latest release month,
+    # it means we've wrapped around to the next year
+    if month <= latest_release_date.month:
         year = latest_release_date.year + 1
     else:
         year = latest_release_date.year

@@ -318,6 +318,7 @@ kernel_module_sctp_disabled
 kernel_module_tipc_disabled
 kernel_module_usb-storage_disabled
 libreswan_approved_tunnels
+login_banner_contents=dod_default
 login_banner_text=dod_banners
 mount_option_boot_nodev
 mount_option_boot_nosuid
@@ -379,6 +380,7 @@ package_policycoreutils_installed
 package_rsyslog-gnutls_installed
 package_rsyslog_installed
 package_s-nail_installed
+package_sequoia-sq_installed
 package_sssd_installed
 package_subscription-manager_installed
 package_sudo_installed
@@ -518,6 +520,7 @@ var_accounts_passwords_pam_faillock_fail_interval=900
 var_accounts_passwords_pam_faillock_unlock_time=never
 var_accounts_tmout=15_min
 var_accounts_user_umask=077
+var_audit_backlog_limit=8192
 var_audit_failure_mode=panic
 var_auditd_action_mail_acct=root
 var_auditd_admin_space_left_action=single

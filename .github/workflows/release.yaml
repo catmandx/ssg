@@ -23,6 +23,7 @@ jobs:
         working-directory: ./build
       - name: Build RHEL 8 only
         run: make -j2 rhel8
+        working-directory: ./build
       - name: Build RHEL 9 only
         run: make -j2 rhel9
         working-directory: ./build

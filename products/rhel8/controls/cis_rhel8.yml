@@ -140,14 +140,14 @@ controls:
           - l1_workstation
       status: manual
 
-    - id: 1.1.2.1.1
-      title: Ensure /tmp is tmpfs or a separate partition (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - partition_for_tmp
+    # - id: 1.1.2.1.1
+    #   title: Ensure /tmp is tmpfs or a separate partition (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - partition_for_tmp
 
     - id: 1.1.2.1.2
       title: Ensure nodev option set on /tmp partition (Automated)
@@ -212,14 +212,14 @@ controls:
       rules:
           - mount_option_dev_shm_noexec
 
-    - id: 1.1.2.3.1
-      title: Ensure separate partition exists for /home (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      status: automated
-      rules:
-          - partition_for_home
+    # - id: 1.1.2.3.1
+    #   title: Ensure separate partition exists for /home (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   status: automated
+    #   rules:
+    #       - partition_for_home
 
     - id: 1.1.2.3.2
       title: Ensure nodev option set on /home partition (Automated)
@@ -239,14 +239,14 @@ controls:
       rules:
           - mount_option_home_nosuid
 
-    - id: 1.1.2.4.1
-      title: Ensure separate partition exists for /var (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      status: automated
-      rules:
-          - partition_for_var
+    # - id: 1.1.2.4.1
+    #   title: Ensure separate partition exists for /var (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   status: automated
+    #   rules:
+    #       - partition_for_var
 
     - id: 1.1.2.4.2
       title: Ensure nodev option set on /var partition (Automated)
@@ -266,14 +266,14 @@ controls:
       rules:
           - mount_option_var_nosuid
 
-    - id: 1.1.2.5.1
-      title: Ensure separate partition exists for /var/tmp (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      status: automated
-      rules:
-          - partition_for_var_tmp
+    # - id: 1.1.2.5.1
+    #   title: Ensure separate partition exists for /var/tmp (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   status: automated
+    #   rules:
+    #       - partition_for_var_tmp
 
     - id: 1.1.2.5.2
       title: Ensure nodev option set on /var/tmp partition (Automated)
@@ -302,14 +302,14 @@ controls:
       rules:
           - mount_option_var_tmp_noexec
 
-    - id: 1.1.2.6.1
-      title: Ensure separate partition exists for /var/log (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      status: automated
-      rules:
-          - partition_for_var_log
+    # - id: 1.1.2.6.1
+    #   title: Ensure separate partition exists for /var/log (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   status: automated
+    #   rules:
+    #       - partition_for_var_log
 
     - id: 1.1.2.6.2
       title: Ensure nodev option set on /var/log partition (Automated)
@@ -338,14 +338,14 @@ controls:
       rules:
           - mount_option_var_log_noexec
 
-    - id: 1.1.2.7.1
-      title: Ensure separate partition exists for /var/log/audit (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      status: automated
-      rules:
-          - partition_for_var_log_audit
+    # - id: 1.1.2.7.1
+    #   title: Ensure separate partition exists for /var/log/audit (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   status: automated
+    #   rules:
+    #       - partition_for_var_log_audit
 
     - id: 1.1.2.7.2
       title: Ensure nodev option set on /var/log/audit partition (Automated)
@@ -503,15 +503,15 @@ controls:
       rules:
           - package_setroubleshoot_removed
 
-    - id: 1.4.1
-      title: Ensure bootloader password is set (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - grub2_password
-          - grub2_uefi_password
+    # - id: 1.4.1
+    #   title: Ensure bootloader password is set (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - grub2_password
+    #       - grub2_uefi_password
 
     - id: 1.4.2
       title: Ensure access to bootloader config is configured (Automated)
@@ -1583,63 +1583,63 @@ controls:
           - sysctl_net_ipv6_conf_default_accept_ra
           - sysctl_net_ipv6_conf_default_accept_ra_value=disabled
 
-    - id: 4.1.1
-      title: Ensure firewalld is installed (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - package_firewalld_installed
+    # - id: 4.1.1
+    #   title: Ensure firewalld is installed (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - package_firewalld_installed
 
-    - id: 4.1.2
-      title: Ensure firewalld backend is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - firewalld-backend
+    # - id: 4.1.2
+    #   title: Ensure firewalld backend is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - firewalld-backend
 
-    - id: 4.1.3
-      title: Ensure firewalld.service is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - service_firewalld_enabled
+    # - id: 4.1.3
+    #   title: Ensure firewalld.service is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - service_firewalld_enabled
 
-    - id: 4.1.4
-      title: Ensure firewalld active zone target is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: pending
-      notes: |-
-        There is not an easy way to do this for only active zones using OVAL.
-        For now, there are are no rules for this control.
+    # - id: 4.1.4
+    #   title: Ensure firewalld active zone target is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: pending
+    #   notes: |-
+    #     There is not an easy way to do this for only active zones using OVAL.
+    #     For now, there are are no rules for this control.
 
-    - id: 4.1.5
-      title: Ensure firewalld loopback traffic is configured (Manual)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: manual
+    # - id: 4.1.5
+    #   title: Ensure firewalld loopback traffic is configured (Manual)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: manual
 
-    - id: 4.1.6
-      title: Ensure firewalld loopback source address traffic is configured (Manual)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: manual
+    # - id: 4.1.6
+    #   title: Ensure firewalld loopback source address traffic is configured (Manual)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: manual
 
-    - id: 4.1.7
-      title: Ensure firewalld services and ports are configured (Manual)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: manual
+    # - id: 4.1.7
+    #   title: Ensure firewalld services and ports are configured (Manual)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: manual
 
     - id: 5.1.1
       title: Ensure sshd crypto_policy is not set (Automated)
@@ -1918,14 +1918,14 @@ controls:
       rules:
           - sudo_custom_logfile
 
-    - id: 5.2.4
-      title: Ensure users must provide password for escalation (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      status: automated
-      rules:
-          - sudo_remove_nopasswd
+    # - id: 5.2.4
+    #   title: Ensure users must provide password for escalation (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   status: automated
+    #   rules:
+    #       - sudo_remove_nopasswd
 
     - id: 5.2.5
       title: Ensure re-authentication for privilege escalation is not disabled globally (Automated)
@@ -1998,49 +1998,49 @@ controls:
           - enable_authselect
           - account_password_pam_faillock_password_auth
           - account_password_pam_faillock_system_auth
-          - accounts_password_pam_pwquality_password_auth
-          - accounts_password_pam_pwquality_system_auth
+        #   - accounts_password_pam_pwquality_password_auth
+        #   - accounts_password_pam_pwquality_system_auth
           - accounts_password_pam_pwhistory_remember_password_auth
           - accounts_password_pam_pwhistory_remember_system_auth
           - accounts_password_pam_unix_enabled
 
-    - id: 5.3.2.2
-      title: Ensure pam_faillock module is enabled (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      notes: |-
-          This requirement is also indirectly satisfied by the requirement 5.3.3.1.
-      rules:
-          - account_password_pam_faillock_password_auth
-          - account_password_pam_faillock_system_auth
+    # - id: 5.3.2.2
+    #   title: Ensure pam_faillock module is enabled (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   notes: |-
+    #       This requirement is also indirectly satisfied by the requirement 5.3.3.1.
+    #   rules:
+    #       - account_password_pam_faillock_password_auth
+    #       - account_password_pam_faillock_system_auth
 
-    - id: 5.3.2.3
-      title: Ensure pam_pwquality module is enabled (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      notes: |-
-          This requirement is also indirectly satisfied by the requirement 5.3.3.2.
-      rules:
-          - package_pam_pwquality_installed
-          - accounts_password_pam_pwquality_password_auth
-          - accounts_password_pam_pwquality_system_auth
+    # - id: 5.3.2.3
+    #   title: Ensure pam_pwquality module is enabled (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   notes: |-
+    #       This requirement is also indirectly satisfied by the requirement 5.3.3.2.
+    #   rules:
+    #       - package_pam_pwquality_installed
+    #       - accounts_password_pam_pwquality_password_auth
+    #       - accounts_password_pam_pwquality_system_auth
 
-    - id: 5.3.2.4
-      title: Ensure pam_pwhistory module is enabled (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      notes: |-
-          The module is properly enabled by the rules mentioned in related_rules.
-          Requirements in 5.3.3.3 use these rules.
-      related_rules:
-          - accounts_password_pam_pwhistory_remember_password_auth
-          - accounts_password_pam_pwhistory_remember_system_auth
+    # - id: 5.3.2.4
+    #   title: Ensure pam_pwhistory module is enabled (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   notes: |-
+    #       The module is properly enabled by the rules mentioned in related_rules.
+    #       Requirements in 5.3.3.3 use these rules.
+    #   related_rules:
+    #       - accounts_password_pam_pwhistory_remember_password_auth
+    #       - accounts_password_pam_pwhistory_remember_system_auth
 
     - id: 5.3.2.5
       title: Ensure pam_unix module is enabled (Automated)
@@ -2053,122 +2053,122 @@ controls:
       rules:
           - accounts_password_pam_unix_enabled
 
-    - id: 5.3.3.1.1
-      title: Ensure password failed attempts lockout is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - accounts_passwords_pam_faillock_deny
-          - var_accounts_passwords_pam_faillock_deny=5
+    # - id: 5.3.3.1.1
+    #   title: Ensure password failed attempts lockout is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - accounts_passwords_pam_faillock_deny
+    #       - var_accounts_passwords_pam_faillock_deny=5
 
-    - id: 5.3.3.1.2
-      title: Ensure password unlock time is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      notes: |-
-          The policy also accepts value 0, which means the locked accounts should be manually unlocked
-          by an administrator. However, it also mentions that using value 0 can facilitate a DoS
-          attack to legitimate users.
-      rules:
-          - accounts_passwords_pam_faillock_unlock_time_with_zero
-          - var_accounts_passwords_pam_faillock_unlock_time=900
+    # - id: 5.3.3.1.2
+    #   title: Ensure password unlock time is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   notes: |-
+    #       The policy also accepts value 0, which means the locked accounts should be manually unlocked
+    #       by an administrator. However, it also mentions that using value 0 can facilitate a DoS
+    #       attack to legitimate users.
+    #   rules:
+    #       - accounts_passwords_pam_faillock_unlock_time_with_zero
+    #       - var_accounts_passwords_pam_faillock_unlock_time=900
 
-    - id: 5.3.3.1.3
-      title: Ensure password failed attempts lockout includes root account (Automated)
-      levels:
-          - l2_server
-          - l2_workstation
-      status: automated
-      rules:
-          - accounts_passwords_pam_faillock_deny_root
+    # - id: 5.3.3.1.3
+    #   title: Ensure password failed attempts lockout includes root account (Automated)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   status: automated
+    #   rules:
+    #       - accounts_passwords_pam_faillock_deny_root
 
-    - id: 5.3.3.2.1
-      title: Ensure password number of changed characters is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - accounts_password_pam_difok
-          - var_password_pam_difok=2
+    # - id: 5.3.3.2.1
+    #   title: Ensure password number of changed characters is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - accounts_password_pam_difok
+    #       - var_password_pam_difok=2
 
-    - id: 5.3.3.2.2
-      title: Ensure password length is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - accounts_password_pam_minlen
-          - var_password_pam_minlen=14
+    # - id: 5.3.3.2.2
+    #   title: Ensure password length is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - accounts_password_pam_minlen
+    #       - var_password_pam_minlen=14
 
-    - id: 5.3.3.2.3
-      title: Ensure password complexity is configured (Manual)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: manual
+    # - id: 5.3.3.2.3
+    #   title: Ensure password complexity is configured (Manual)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: manual
 
-    - id: 5.3.3.2.4
-      title: Ensure password same consecutive characters is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - accounts_password_pam_maxrepeat
-          - var_password_pam_maxrepeat=3
+    # - id: 5.3.3.2.4
+    #   title: Ensure password same consecutive characters is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - accounts_password_pam_maxrepeat
+    #       - var_password_pam_maxrepeat=3
 
-    - id: 5.3.3.2.5
-      title: Ensure password maximum sequential characters is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - accounts_password_pam_maxsequence
-          - var_password_pam_maxsequence=3
+    # - id: 5.3.3.2.5
+    #   title: Ensure password maximum sequential characters is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - accounts_password_pam_maxsequence
+    #       - var_password_pam_maxsequence=3
 
-    - id: 5.3.3.2.6
-      title: Ensure password dictionary check is enabled (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - accounts_password_pam_dictcheck
-          - var_password_pam_dictcheck=1
+    # - id: 5.3.3.2.6
+    #   title: Ensure password dictionary check is enabled (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - accounts_password_pam_dictcheck
+    #       - var_password_pam_dictcheck=1
 
-    - id: 5.3.3.2.7
-      title: Ensure password quality is enforced for the root user (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - accounts_password_pam_enforce_root
+    # - id: 5.3.3.2.7
+    #   title: Ensure password quality is enforced for the root user (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - accounts_password_pam_enforce_root
 
-    - id: 5.3.3.3.1
-      title: Ensure password history remember is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      notes: |-
-          Although mentioned in the section 5.3.3.3, there is no explicit requirement to configure
-          retry option of pam_pwhistory. If come in the future, the rule accounts_password_pam_retry
-          can be used.
-      rules:
-          - accounts_password_pam_pwhistory_remember_password_auth
-          - accounts_password_pam_pwhistory_remember_system_auth
-          - var_password_pam_remember_control_flag=requisite_or_required
-          - var_password_pam_remember=24
-      related_rules:
-          - accounts_password_pam_retry
+    # - id: 5.3.3.3.1
+    #   title: Ensure password history remember is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   notes: |-
+    #       Although mentioned in the section 5.3.3.3, there is no explicit requirement to configure
+    #       retry option of pam_pwhistory. If come in the future, the rule accounts_password_pam_retry
+    #       can be used.
+    #   rules:
+    #       - accounts_password_pam_pwhistory_remember_password_auth
+    #       - accounts_password_pam_pwhistory_remember_system_auth
+    #       - var_password_pam_remember_control_flag=requisite_or_required
+    #       - var_password_pam_remember=24
+    #   related_rules:
+    #       - accounts_password_pam_retry
 
     - id: 5.3.3.3.2
       title: Ensure password history is enforced for the root user (Automated)
@@ -2179,28 +2179,28 @@ controls:
       rules:
           - accounts_password_pam_pwhistory_enforce_for_root
 
-    - id: 5.3.3.3.3
-      title: Ensure pam_pwhistory includes use_authtok (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      related_rules:
-          - accounts_password_pam_pwhistory_remember_password_auth
-          - accounts_password_pam_pwhistory_remember_system_auth
-      rules:
-          - accounts_password_pam_pwhistory_use_authtok
+    # - id: 5.3.3.3.3
+    #   title: Ensure pam_pwhistory includes use_authtok (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   related_rules:
+    #       - accounts_password_pam_pwhistory_remember_password_auth
+    #       - accounts_password_pam_pwhistory_remember_system_auth
+    #   rules:
+    #       - accounts_password_pam_pwhistory_use_authtok
 
-    - id: 5.3.3.4.1
-      title: Ensure pam_unix does not include nullok (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      notes: |-
-          The rule more specifically used in this requirement also satify the requirement 5.3.2.5.
-      rules:
-          - no_empty_passwords
+    # - id: 5.3.3.4.1
+    #   title: Ensure pam_unix does not include nullok (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   notes: |-
+    #       The rule more specifically used in this requirement also satify the requirement 5.3.2.5.
+    #   rules:
+    #       - no_empty_passwords
 
     - id: 5.3.3.4.2
       title: Ensure pam_unix does not include remember (Automated)
@@ -2238,64 +2238,64 @@ controls:
       rules:
           - accounts_password_pam_unix_authtok
 
-    - id: 5.4.1.1
-      title: Ensure password expiration is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - accounts_maximum_age_login_defs
-          - var_accounts_maximum_age_login_defs=365
-          - accounts_password_set_max_life_existing
+    # - id: 5.4.1.1
+    #   title: Ensure password expiration is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - accounts_maximum_age_login_defs
+    #       - var_accounts_maximum_age_login_defs=365
+    #       - accounts_password_set_max_life_existing
 
-    - id: 5.4.1.2
-      title: Ensure minimum password days is configured (Manual)
-      levels:
-          - l2_server
-          - l2_workstation
-      status: manual
+    # - id: 5.4.1.2
+    #   title: Ensure minimum password days is configured (Manual)
+    #   levels:
+    #       - l2_server
+    #       - l2_workstation
+    #   status: manual
 
-    - id: 5.4.1.3
-      title: Ensure password expiration warning days is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - accounts_password_warn_age_login_defs
-          - var_accounts_password_warn_age_login_defs=7
-          - accounts_password_set_warn_age_existing
+    # - id: 5.4.1.3
+    #   title: Ensure password expiration warning days is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - accounts_password_warn_age_login_defs
+    #       - var_accounts_password_warn_age_login_defs=7
+    #       - accounts_password_set_warn_age_existing
 
-    - id: 5.4.1.4
-      title: Ensure strong password hashing algorithm is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - set_password_hashing_algorithm_logindefs
-          - var_password_hashing_algorithm=cis_rhel8
+    # - id: 5.4.1.4
+    #   title: Ensure strong password hashing algorithm is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - set_password_hashing_algorithm_logindefs
+    #       - var_password_hashing_algorithm=cis_rhel8
 
-    - id: 5.4.1.5
-      title: Ensure inactive password lock is configured (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - account_disable_post_pw_expiration
-          - accounts_set_post_pw_existing
-          - var_account_disable_post_pw_expiration=45
+    # - id: 5.4.1.5
+    #   title: Ensure inactive password lock is configured (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - account_disable_post_pw_expiration
+    #       - accounts_set_post_pw_existing
+    #       - var_account_disable_post_pw_expiration=45
 
-    - id: 5.4.1.6
-      title: Ensure all users last password change date is in the past (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - accounts_password_last_change_is_in_past
+    # - id: 5.4.1.6
+    #   title: Ensure all users last password change date is in the past (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - accounts_password_last_change_is_in_past
 
     - id: 5.4.2.1
       title: Ensure root is the only UID 0 account (Automated)
@@ -2328,14 +2328,14 @@ controls:
       rules:
           - groups_no_zero_gid_except_root
 
-    - id: 5.4.2.4
-      title: Ensure root account access is controlled (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - ensure_root_password_configured
+    # - id: 5.4.2.4
+    #   title: Ensure root account access is controlled (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - ensure_root_password_configured
 
     - id: 5.4.2.5
       title: Ensure root path integrity (Automated)
@@ -2406,37 +2406,37 @@ controls:
           - accounts_umask_etc_profile
           - var_accounts_user_umask=027
 
-    - id: 6.1.1
-      title: Ensure AIDE is installed (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - package_aide_installed
-          - aide_build_database
+    # - id: 6.1.1
+    #   title: Ensure AIDE is installed (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - package_aide_installed
+    #       - aide_build_database
 
-    - id: 6.1.2
-      title: Ensure filesystem integrity is regularly checked (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - aide_periodic_cron_checking
-      related_rules:
-          - aide_periodic_checking_systemd_timer
+    # - id: 6.1.2
+    #   title: Ensure filesystem integrity is regularly checked (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - aide_periodic_cron_checking
+    #   related_rules:
+    #       - aide_periodic_checking_systemd_timer
 
-    - id: 6.1.3
-      title: Ensure cryptographic mechanisms are used to protect the integrity of audit tools (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - aide_check_audit_tools
-      related_rules:
-          - aide_use_fips_hashes
+    # - id: 6.1.3
+    #   title: Ensure cryptographic mechanisms are used to protect the integrity of audit tools (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - aide_check_audit_tools
+    #   related_rules:
+    #       - aide_use_fips_hashes
 
     - id: 6.2.1.1.1
       title: Ensure journald service is active (Automated)
@@ -3146,15 +3146,15 @@ controls:
           - file_permissions_unauthorized_world_writable
           - dir_perms_world_writable_sticky_bits
 
-    - id: 7.1.12
-      title: Ensure no files or directories without an owner and a group exist (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - no_files_or_dirs_unowned_by_user
-          - no_files_or_dirs_ungroupowned
+    # - id: 7.1.12
+    #   title: Ensure no files or directories without an owner and a group exist (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - no_files_or_dirs_unowned_by_user
+    #       - no_files_or_dirs_ungroupowned
 
     - id: 7.1.13
       title: Ensure SUID and SGID files are reviewed (Manual)
@@ -3175,14 +3175,14 @@ controls:
       rules:
           - accounts_password_all_shadowed
 
-    - id: 7.2.2
-      title: Ensure /etc/shadow password fields are not empty (Automated)
-      levels:
-          - l1_server
-          - l1_workstation
-      status: automated
-      rules:
-          - no_empty_passwords_etc_shadow
+    # - id: 7.2.2
+    #   title: Ensure /etc/shadow password fields are not empty (Automated)
+    #   levels:
+    #       - l1_server
+    #       - l1_workstation
+    #   status: automated
+    #   rules:
+    #       - no_empty_passwords_etc_shadow
 
     - id: 7.2.3
       title: Ensure all groups in /etc/passwd exist in /etc/group (Automated)
